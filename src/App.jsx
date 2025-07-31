@@ -36,7 +36,7 @@ function App() {
             <Route path="search" element={<SearchPage />} />
             <Route path = "users/profile" element ={<UserPage/>}/>
             <Route path="*" element={<NotFound />} />
-            <Route path= "/adminpage" element={<AdminPage/>}/>
+            <Route path= "adminpage" element={<AdminPage/>}/>
           </Routes>
         </Router>
       </AllDataProvider>
