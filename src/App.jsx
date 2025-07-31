@@ -6,7 +6,7 @@ import Home from './pages/Home'
 import Experiences from './pages/Experiences'
 import Services from './pages/Services'
 import NotFound from './pages/NotFound'
-import S from './pages/S'
+import Something from './pages/S'
 import HotelDetailPage from './pages/HotelDetailPage'
 import { AllDataProvider } from './contexts/AllDataContext'
 import {UserProvider} from "./contexts/UsersContext"
@@ -29,7 +29,7 @@ function App() {
               <Route path="services" element={<Services />} />
             
             </Route>  
-            <Route path="s/:id" element={<S />} />
+            <Route path="s/:id" element={<Something />} />
             <Route path="home/:id" element={<HotelDetailPage />} />
             <Route path="services/:id" element={<ServicesDetailPage />} />
             <Route path="experiences/:id" element={<ExperiencesDetailPage />} />

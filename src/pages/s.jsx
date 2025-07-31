@@ -2,7 +2,7 @@ import React from 'react'
 import ServicesFirstLineCardsHolder from '../components/ServicesFirstLineCardsHolder'
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
-function s() {
+function Something() {
     return (
         <div>
           <Navbar forceScrolled ={true}/>
@@ -14,4 +14,4 @@ function s() {
     )
 }
 
-export default s
+export default Something
