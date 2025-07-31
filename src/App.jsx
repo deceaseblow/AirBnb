@@ -6,7 +6,7 @@ import Home from './pages/Home'
 import Experiences from './pages/Experiences'
 import Services from './pages/Services'
 import NotFound from './pages/NotFound'
-import Something from './pages/S'
+import Something from './pages/Something'
 import HotelDetailPage from './pages/HotelDetailPage'
 import { AllDataProvider } from './contexts/AllDataContext'
 import {UserProvider} from "./contexts/UsersContext"
