@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AirBnbIcon from './icons/AirBnbIcon';
-import AirBnbSymbolIcon from './icons/AirBnbSymbolIcon';
 import HomeIcon from './icons/HomeIcon';
 import BalloonIcon from './icons/BalloonIcon';
 import ServiceIcon from './icons/ServiceIcon';
