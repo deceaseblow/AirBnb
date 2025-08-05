@@ -16,3 +16,4 @@ edilmeliler :
 
 1) become a host window
 2) experiences detail page
+3) services detail page i duzelt

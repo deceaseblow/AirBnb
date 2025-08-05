@@ -124,7 +124,7 @@ const ServiceDetailPage = () => {
                     From ${service.price_per_person}
                     <span className="text-[16px] text-gray-600"> / guest</span>
                   </h1>
-                  <p>Minimum {service.types[0].price} to book</p>
+                  <p>Minimum ${service.types[0].price} to book</p>
                   <p className="text-red-600">Free Cancellation</p>
                 </div>
                 <button className="bg-pink-400 py-2 px-9 rounded-[35px] text-white text-[20px]">

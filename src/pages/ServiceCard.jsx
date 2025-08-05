@@ -66,11 +66,21 @@ const ServiceCard = ({ service }) => {
                                     key={index}
                                     className="flex items-start gap-4 p-3 hover:cursor-pointer"
                                 >
-                                    <img
-                                        src={type.image}
-                                        alt={type.name}
-                                        className="w-30 h-30 rounded-[30px] object-cover flex-shrink-0"
-                                    />
+                                    {type.image && type.image.trim() !== "" ? (
+                                        <img
+                                            src={type.image}
+                                            alt={type.name}
+                                            className="w-30 h-30 rounded-[30px] object-cover flex-shrink-0"
+                                            onError={(e) => {
+                                                // Replace broken image with a gray placeholder
+                                                e.target.onerror = null; // prevent loop
+                                                e.target.src = ""; // clear src
+                                                e.target.outerHTML = `<div class="w-30 h-30 rounded-[30px] bg-gray-300 flex-shrink-0"></div>`;
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="w-30 h-30 rounded-[30px] bg-gray-300 flex-shrink-0" />
+                                    )}
                                     <div className="flex-1">
                                         <h4 className="text-[16px] font-semibold text-gray-900 mb-1">{type.name}</h4>
                                         <p className="text-[14px] text-black mb-1 font-semibold">
@@ -80,15 +90,17 @@ const ServiceCard = ({ service }) => {
                                     </div>
                                 </div>
                             ))}
+
+
                         </div>
                         <p className='text-gray-700 text-[14px] py-5'>You can message {service.host.name} to customize or make changes.</p>
                     </div>
 
-                    <div className='py-10 border-b border-gray-200'>
+                    <div className='py-10 border-b border-gray-200 flex flex-col gap-4'>
                         <h1 className="text-2xl font-bold text-gray-900 ">My qualifications</h1>
 
-                        <div className="flex gap-6">
-                            <div className="w-[350px] h-full bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+                        <div className="flex gap-6 md:flex-row">
+                            <div className="w-[350px] h-full bg-white rounded-2xl shadow-lg py-6 px-3 flex flex-col items-center">
                                 <img
                                     src={service.host.image}
                                     alt={service.host.name}
@@ -98,7 +110,7 @@ const ServiceCard = ({ service }) => {
                                 <p className="text-gray-600 text-sm">{service.host.work}</p>
                             </div>
 
-                            <div className="flex-1 space-y-6">
+                            <div className="flex-1 flex flex-col gap-1">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
                                         <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,24 +178,42 @@ const ServiceCard = ({ service }) => {
                                 />
                             </div>
                             <div className="flex-1 flex flex-col gap-2">
-                                {/* Top right image */}
-                                <div className="flex-1 relative overflow-hidden rounded-2xl">
-                                    <img
-                                        src={service.images[1]}
-                                        alt="Portfolio work 2"
-                                        className="w-full h-full object-cover hover:cursor-pointer"
-                                    />
+                                {/* Top right image or gray placeholder */}
+                                <div className="flex-1 relative overflow-hidden rounded-2xl bg-gray-200">
+                                    {service.images?.[1] ? (
+                                        <img
+                                            src={service.images[1]}
+                                            alt="Portfolio work 2"
+                                            className="w-full h-full object-cover hover:cursor-pointer"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.remove(); // Remove broken image
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gray-300" />
+                                    )}
                                 </div>
 
-                                {/* Bottom right image */}
-                                <div className="flex-1 relative overflow-hidden rounded-2xl">
-                                    <img
-                                        src={service.images[2]}
-                                        alt="Portfolio work 3"
-                                        className="w-full h-full object-cover hover:cursor-pointer"
-                                    />
+                                {/* Bottom right image or gray placeholder */}
+                                <div className="flex-1 relative overflow-hidden rounded-2xl bg-gray-200">
+                                    {service.images?.[2] ? (
+                                        <img
+                                            src={service.images[2]}
+                                            alt="Portfolio work 3"
+                                            className="w-full h-full object-cover hover:cursor-pointer"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.remove();
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gray-300" />
+                                    )}
                                 </div>
                             </div>
+
+
                         </div>
 
                     </div>
