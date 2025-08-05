@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
-import { useUser } from '../contexts/UsersContext'; // ✅ adjust path to your context
+import { useUser } from '../contexts/UsersContext'; 
 import { useNavigate } from 'react-router-dom';
+import { createUser } from '../services/userServices';
 
 function LogIn_SignUpModal({ onClose }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -30,32 +31,72 @@ function LogIn_SignUpModal({ onClose }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
-  setError('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-  if (isLogin) {
-    // 🔑 Check user credentials
-    const res = login(formData.username, formData.password);
-
-    if (res.success) {
-      console.log("✅ Logged in:", res.user);
-      onClose();
-      navigate('/'); // Go home if success
+    if (isLogin) {
+      const res = await login(formData.username, formData.password);
+      if (res.success) {
+        onClose();
+        navigate('/');
+      } else {
+        setError(res.message);
+      }
     } else {
-      console.log("❌ Login failed:", res.message);
-      setError(res.message);
-    }
-  } else {
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-    alert('Account created! Now sign in.');
-    setIsLogin(true);
-  }
-};
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
 
+      try {
+        const newUserData = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          role: "user",
+          date_of_birth: null,
+          profile_picture: "",
+          is_superhost: false,
+          about_me: "",
+          interests: [],
+          languages_spoken: [],
+          lives_in: "",
+          joined_on: new Date().toISOString().split('T')[0], // <-- fix
+          verified: { email: false, phone: false, identity: false },
+          places_visited: [],
+          host_rating: 0,
+          total_reviews: 0,
+          listings: [],
+          bookings: [],
+          wishlist: []
+        };
+
+
+        console.log("Submitting to backend:", newUserData);
+        const res = await createUser(newUserData);
+        if (res.id) { 
+          alert('Account created! Now... please sign in.');
+          setIsLogin(true);
+          setFormData({
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          });
+        } else {
+          setError('Registration failed. Try again.');
+        }
+      } catch (err) {
+        console.error('Registration error:', err);
+        setError('Something went wrong during registration.');
+      }
+    }
+  };
 
   return (
     <div

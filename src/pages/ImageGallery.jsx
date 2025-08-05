@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { GoShare } from "react-icons/go";
-import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const ImageGallery = ({ images, hotelName, hotel }) => {
+const ImageGallery = ({ images, hotelName, hotel, isFavorite, toggleFavorite }) => {
   const [showModal, setShowModal] = useState(false);
   const [showSwiper, setShowSwiper] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -69,7 +69,7 @@ const ImageGallery = ({ images, hotelName, hotel }) => {
       </div>
 
       {showModal && (
-        
+
         <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
           <div className="sticky top-0 z-50 bg-white flex justify-between items-center px-6 py-4">
             <button onClick={() => setShowModal(false)} className="flex items-center gap-2">
@@ -80,14 +80,22 @@ const ImageGallery = ({ images, hotelName, hotel }) => {
                 <GoShare />
                 <span>Share</span>
               </div>
-              <div className="flex items-center gap-1 text-sm">
-                <IoIosHeartEmpty />
-                <span>Save</span>
+              <div
+                className="flex items-center gap-1 text-sm cursor-pointer"
+                onClick={toggleFavorite}
+              >
+                {isFavorite ? (
+                  <IoIosHeart className="text-red-500 w-5 h-5" />
+                ) : (
+                  <IoIosHeartEmpty className="w-5 h-5" />
+                )}
+                <span>{isFavorite ? 'Saved' : 'Save'}</span>
               </div>
+
             </div>
           </div>
 
-         <div className='max-w-5xl mx-auto'> <div className="p-6 space-y-8">
+          <div className='max-w-5xl mx-auto'> <div className="p-6 space-y-8">
             {imageArray.map((img, index) => (
               <div key={index}>
                 <p className="text-base font-medium mb-2">{`Image ${index + 1}`}</p>
@@ -116,25 +124,18 @@ const ImageGallery = ({ images, hotelName, hotel }) => {
             </button>
             <span className="text-sm">{`${selectedImageIndex + 1} / ${imageArray.length}`}</span>
           </div>
-
-          {/* Image Swiper */}
           <div className="flex-1 flex items-center justify-center relative">
-            {/* Left Arrow */}
             <button
               onClick={prevImage}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-white text-black rounded-full p-2 hover:bg-gray-200"
             >
               <ChevronLeft />
             </button>
-
-            {/* Image */}
             <img
               src={imageArray[selectedImageIndex]}
               alt={`Image ${selectedImageIndex + 1}`}
               className="max-h-[80vh] object-contain"
             />
-
-            {/* Right Arrow */}
             <button
               onClick={nextImage}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-white text-black rounded-full p-2 hover:bg-gray-200"
@@ -142,10 +143,8 @@ const ImageGallery = ({ images, hotelName, hotel }) => {
               <ChevronRight />
             </button>
           </div>
-
-          {/* Caption */}
           <div className="text-center py-4 text-sm">
-            {`Image ${selectedImageIndex + 1} description or room title here`}
+            {`Image ${selectedImageIndex + 1}`}
           </div>
         </div>
       )}

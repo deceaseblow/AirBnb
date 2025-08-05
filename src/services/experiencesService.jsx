@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
-/* ========= GET ========= */
 async function getExperiencesTbilisi() {
     try {
         const res = await axios.get(`${BASE_URL}/experiencesTbilisi`)
@@ -31,7 +30,6 @@ async function getExperiencesFatih() {
     }
 }
 
-/* ========= CREATE ========= */
 async function addExperienceTbilisi(data) {
     return (await axios.post(`${BASE_URL}/experiencesTbilisi`, data)).data;
 }
@@ -42,7 +40,6 @@ async function addExperienceFatih(data) {
     return (await axios.post(`${BASE_URL}/experiencesFatih`, data)).data;
 }
 
-/* ========= UPDATE ========= */
 async function updateExperienceTbilisi(id, data) {
     return (await axios.put(`${BASE_URL}/experiencesTbilisi/${id}`, data)).data;
 }
@@ -53,7 +50,6 @@ async function updateExperienceFatih(id, data) {
     return (await axios.put(`${BASE_URL}/experiencesFatih/${id}`, data)).data;
 }
 
-/* ========= DELETE ========= */
 async function deleteExperienceTbilisi(id) {
     return (await axios.delete(`${BASE_URL}/experiencesTbilisi/${id}`)).data;
 }

@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
+const BASE_URL = import.meta.env.VITE_BASE_URL 
 
-/* ========= GET ========= */
 async function getAllParisData() {
   try {
     const res = await axios.get(`${BASE_URL}/hotelsParis`);
@@ -42,8 +41,6 @@ async function getAllTokyoData() {
     throw error;
   }
 }
-
-/* ========= CREATE ========= */
 async function addParisHotel(hotelData) {
   try {
     const res = await axios.post(`${BASE_URL}/hotelsParis`, hotelData);
@@ -83,8 +80,6 @@ async function addTokyoHotel(hotelData) {
     throw error;
   }
 }
-
-/* ========= UPDATE ========= */
 async function updateParisHotel(id, updatedData) {
   try {
     const res = await axios.put(`${BASE_URL}/hotelsParis/${id}`, updatedData);
@@ -124,8 +119,6 @@ async function updateTokyoHotel(id, updatedData) {
     throw error;
   }
 }
-
-/* ========= DELETE ========= */
 async function deleteParisHotel(id) {
   try {
     const res = await axios.delete(`${BASE_URL}/hotelsParis/${id}`);
@@ -165,8 +158,6 @@ async function deleteTokyoHotel(id) {
     throw error;
   }
 }
-
-/* ========= EXPORT ========= */
 export {
   getAllParisData,
   getAllLondonData,

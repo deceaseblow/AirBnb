@@ -15,6 +15,7 @@ import ExperiencesDetailPage from './pages/ExperiencesDetailPage'
 import SearchPage from './pages/SearchPage'
 import UserPage from "./pages/UserPage"
 import AdminPage from './pages/AdminPage'
+import WishlistPage from './pages/WishlistPage'
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
             <Route path = "users/profile" element ={<UserPage/>}/>
             <Route path="*" element={<NotFound />} />
             <Route path= "adminpage" element={<AdminPage/>}/>
+            <Route path = "wishlist" element={<WishlistPage/>}/>
           </Routes>
         </Router>
       </AllDataProvider>

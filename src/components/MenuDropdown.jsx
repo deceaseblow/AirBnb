@@ -4,7 +4,9 @@ import HomeIconn from './icons/HomeIcon';
 import LogIn_SignUpModal from './LogIn_SignUpModal';
 import { useUser } from '../contexts/UsersContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import { FaRegMessage } from "react-icons/fa6";
+import { FaAirbnb } from "react-icons/fa";
+import { GoHeart } from "react-icons/go";
 
 function MenuDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +71,12 @@ function MenuDropdown() {
     }
     setIsOpen(false);
   };
-
+  const handleWishlistClick = () => {
+      if (location.pathname !== '/wishlist') {
+      navigate('/wishlist');
+    }
+    setIsOpen(false);
+  }
   const handleLogout = () => {
     logout();
     setIsOpen(false);
@@ -79,7 +86,7 @@ function MenuDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 border border-gray-300 rounded-full px-3 py-2 hover:shadow-md transition-shadow"
+        className="flex items-center rounded-full p-2 bg-gray-200 hover:bg-gray-300"
       >
         <Menu size={16} />
       </button>
@@ -89,17 +96,33 @@ function MenuDropdown() {
 
           {isLoggedIn && (
             <>
-              <div className="px-4 py-2 text-sm text-gray-700">
-                Signed in as <strong>{currentUser?.username}</strong>
-              </div>
               <div className="pb-2 border-b border-gray-200">
-                <button className="w-full px-4 py-3 text-left hover:bg-gray-50">Wishlists</button>
-                <button className="w-full px-4 py-3 text-left hover:bg-gray-50">Trips</button>
-                <button className="w-full px-4 py-3 text-left hover:bg-gray-50">Messages</button>
-                <button onClick={handleProfileClick} className="w-full px-4 py-3 text-left hover:bg-gray-50">Profile</button>
+                {[
+                  { icon: GoHeart, label: 'Wishlists', onClick: handleWishlistClick },
+                  { icon: FaAirbnb, label: 'Trips', onClick: handleProfileClick },
+                  { icon: FaRegMessage, label: 'Messages', onClick: handleProfileClick },
+                  { icon: UserPlus, label: 'Profile', onClick: handleProfileClick }
+                ].map((item, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (item.onClick) item.onClick();
+                      setIsOpen(false);
+                    }}
+
+                    className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center space-x-3"
+                  >
+                    <div className="flex-shrink-0">
+                      <item.icon size={16} className="text-gray-600" />
+                    </div>
+                    <div className="text-sm font-medium text-gray-900">{item.label}</div>
+                  </button>
+                ))}
               </div>
             </>
           )}
+
+
 
           <div className="pb-2 border-b border-gray-200">
             {menuItems.map((item, index) => (
@@ -150,7 +173,7 @@ function MenuDropdown() {
             <div className="pt-2">
               <button
                 onClick={handleLogout}
-                className="w-full px-5 py-1 text-left hover:bg-gray-50 text-red-600 font-semibold"
+                className="w-full px-5 py-1 text-left text-[16px] font-semibold hover:bg-gray-100 "
               >
                 Log out
               </button>

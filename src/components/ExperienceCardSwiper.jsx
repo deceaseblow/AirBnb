@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ExperienceServiceCard from './ExperienceCard';
+import { useUser } from '../contexts/UsersContext'; // ← Make sure this is correct
 
 function ExperienceServiceCardSwiper({ experiences, title }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [favorites, setFavorites] = useState([]);
   const [cardsPerView, setCardsPerView] = useState(6);
+
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser();
 
   useEffect(() => {
     function updateCardsPerView() {
       const width = window.innerWidth;
-       if (width < 640) {           // small mobile devices (sm)
-        setCardsPerView(2)
-      } else if (width < 1024) {   // tablets (md/lg)
-        setCardsPerView(3)
-      } else if (width < 1280) {
-        setCardsPerView(4)
-      }
-      else if (width < 1536) {
-        setCardsPerView(5)
-      }
-      else {                    // desktop and above (xl+)
-        setCardsPerView(6)
-      }
-      setCurrentIndex(0) 
+      if (width < 640) setCardsPerView(2);
+      else if (width < 1024) setCardsPerView(3);
+      else if (width < 1280) setCardsPerView(4);
+      else if (width < 1536) setCardsPerView(5);
+      else setCardsPerView(6);
+      setCurrentIndex(0);
     }
 
     updateCardsPerView();
@@ -44,11 +38,13 @@ function ExperienceServiceCardSwiper({ experiences, title }) {
   };
 
   const toggleFavorite = (id) => {
-    setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(favId => favId !== id)
-        : [...prev, id]
-    );
+    if (!isLoggedIn) return;
+
+    if (currentUser?.wishlist?.includes(id)) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist(id);
+    }
   };
 
   if (!experiences || experiences.length === 0) return <div>Loading...</div>;
@@ -63,7 +59,7 @@ function ExperienceServiceCardSwiper({ experiences, title }) {
           <h1 className="text-xl font-sans font-semibold">{title}</h1>
           <ChevronRight className='w-4 pt-1 ml-1' />
         </div>
-        
+
         <div className="flex gap-4">
           <button
             onClick={prevSlide}
@@ -95,8 +91,8 @@ function ExperienceServiceCardSwiper({ experiences, title }) {
             >
               <ExperienceServiceCard
                 experience={experience}
-                isFavorite={favorites.includes(experience.id)}
-                toggleFavorite={toggleFavorite}
+                isFavorite={currentUser?.wishlist?.includes(experience.id)}
+                toggleFavorite={() => toggleFavorite(experience.id)}
               />
             </div>
           ))}

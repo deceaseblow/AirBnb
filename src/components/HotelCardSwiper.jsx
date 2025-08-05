@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import HotelCard from './HotelCard'
+import { useUser } from '../contexts/UsersContext'
 
 function HotelCardSwiper({ hotels, title }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [favorites, setFavorites] = useState([])
   const [cardsPerView, setCardsPerView] = useState(8)
+
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser()
 
   useEffect(() => {
     function updateCardsPerView() {
       const width = window.innerWidth
-      if (width < 640) {           // small mobile devices (sm)
-        setCardsPerView(2)
-      } else if (width < 1024) {   // tablets (md/lg)
-        setCardsPerView(3)
-      } else if (width < 1280) {
-        setCardsPerView(4)
-      }
-      else if (width < 1536) {
-        setCardsPerView(5)
-      }
-      else {                    // desktop and above (xl+)
-        setCardsPerView(6)
-      }
-      setCurrentIndex(0) // reset slider when cards per view changes to avoid overflow
+      if (width < 640) setCardsPerView(2)
+      else if (width < 1024) setCardsPerView(3)
+      else if (width < 1280) setCardsPerView(4)
+      else if (width < 1536) setCardsPerView(5)
+      else setCardsPerView(6)
+      setCurrentIndex(0)
     }
 
     updateCardsPerView()
@@ -48,11 +42,15 @@ function HotelCardSwiper({ hotels, title }) {
   }
 
   const toggleFavorite = (hotelId) => {
-    setFavorites(prev =>
-      prev.includes(hotelId)
-        ? prev.filter(id => id !== hotelId)
-        : [...prev, hotelId]
-    )
+    if (!isLoggedIn) {
+      return
+    }
+
+    if (currentUser?.wishlist?.includes(hotelId)) {
+      removeFromWishlist(hotelId)
+    } else {
+      addToWishlist(hotelId)
+    }
   }
 
   if (!hotels || hotels.length === 0) return <div>Loading...</div>
@@ -92,11 +90,15 @@ function HotelCardSwiper({ hotels, title }) {
           style={{ transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)` }}
         >
           {repeatedHotels.map((hotel, index) => (
-            <div key={`${hotel.id}-${index}`} className="flex-shrink-0 px-2" style={{ width: `${100 / cardsPerView}%` }}>
+            <div
+              key={`${hotel.id}-${index}`}
+              className="flex-shrink-0 px-2"
+              style={{ width: `${100 / cardsPerView}%` }}
+            >
               <HotelCard
                 hotel={hotel}
-                isFavorite={favorites.includes(hotel.id)}
-                toggleFavorite={toggleFavorite}
+                isFavorite={currentUser?.wishlist?.includes(hotel.id) ?? false}
+                toggleFavorite={() => toggleFavorite(hotel.id)}
               />
             </div>
           ))}

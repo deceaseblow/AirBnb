@@ -1,17 +1,40 @@
-import react, { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAllData } from '../contexts/AllDataContext';
-import { Star, MapPin, Heart, Share, Users, Calendar, Clock, Camera, Globe } from 'lucide-react';
+import { useUser } from '../contexts/UsersContext'; 
+import { GoShare, GoHeart } from "react-icons/go";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { GoShare } from "react-icons/go";
-import { GoHeart } from "react-icons/go";
 import ServiceCard from './ServiceCard';
+import MobileFooter from '../components/MobileFooter';
+
 const ServiceDetailPage = () => {
   const { id } = useParams();
   const { findItemById, loading, error } = useAllData();
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser();
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+
+  const service = findItemById(parseInt(id));
+
+  const isFavorite = currentUser?.wishlist?.includes(service?.id);
+
+  const toggleFavorite = (serviceId) => {
+
+    if (!isLoggedIn) {
+      alert('Please log in to save services.');
+      return;
+    }
+
+    if (currentUser?.wishlist?.includes(serviceId)) {
+      removeFromWishlist(serviceId)
+        .catch(err => console.error('Error removing from wishlist:', err));
+    } else {
+      addToWishlist(serviceId)
+        .catch(err => console.error('Error adding to wishlist:', err));
+    }
+  };
 
   if (loading) {
     return (
@@ -34,8 +57,6 @@ const ServiceDetailPage = () => {
     );
   }
 
-  const service = findItemById(parseInt(id));
-
   if (!service) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -46,14 +67,14 @@ const ServiceDetailPage = () => {
     );
   }
 
-  const allImages = [service.image, ...service.images];
-
   return (
     <div>
-      <div className="fixed top-0 left-0 w-full z-50 ">  <Navbar forceScrolled={true} /></div>
-      <div className="min-h-screen">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Navbar forceScrolled={true} />
+      </div>
 
+      <div className="min-h-screen pt-20">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/2 lg:h-screen lg:sticky top-0 flex flex-col justify-between items-center bg-white pt-30">
             <div className="max-w-md w-full">
               <div className="relative">
@@ -80,15 +101,23 @@ const ServiceDetailPage = () => {
                   <p className="text-[14px] text-gray-400">Provided at your home</p>
                 </div>
                 <div className="flex justify-center gap-6 pt-4 text-black">
-                  <button className="p-3 rounded-full  hover:bg-gray-100 transition-colors cursor-pointer">
+                  <button className="p-3 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
                     <GoShare />
                   </button>
-                  <button className="p-3 rounded-full  hover:bg-gray-100 transition-colors cursor-pointer">
-                    <GoHeart />
+                  <button
+                    className="p-3 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                    onClick={() => toggleFavorite(service.id)}
+                  >
+                    {isFavorite ? (
+                      <GoHeart className="text-red-500" />
+                    ) : (
+                      <GoHeart className="text-gray-400" />
+                    )}
                   </button>
                 </div>
               </div>
             </div>
+
             <div className="w-[450px] px-2 pt-8">
               <div className="flex justify-between items-center pt-10 pb-5 px-7 rounded-t-[50px] shadow-lg bg-white shadow-top">
                 <div className="flex flex-col text-[14px]">
@@ -104,15 +133,17 @@ const ServiceDetailPage = () => {
                 </button>
               </div>
             </div>
-
           </div>
-          <div className="w-full lg:w-1/2 min-h-screen overflow-y-auto">
 
-            <div>
-              <ServiceCard service={service} />
-            </div>
+          <div className="w-full lg:w-1/2 min-h-screen overflow-y-auto">
+            <ServiceCard service={service} />
           </div>
         </div>
+      </div>
+
+      <Footer />
+        <div className="block md:hidden">
+        <MobileFooter />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import PriceTag from '../components/PriceTag';
 import MapComponent from '../components/MapComponent';
 import { MdOpenInFull } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-
+import MobileFooter from '../components/MobileFooter';
 import {
   getAllParisData,
   getAllLondonData,
@@ -50,11 +50,11 @@ function SearchPage() {
 
         if (searched === 'home') {
           const city = (where || '').trim().toLowerCase();
-          switch (city) {
-            case 'paris':
+          switch (city) { 
+            case 'france':
               data = await getAllParisData();
               break;
-            case 'london':
+            case 'england':
               data = await getAllLondonData();
               break;
             case 'japan':
@@ -86,7 +86,7 @@ function SearchPage() {
             default:
               data = await Promise.all([
                 getExperiencesTbilisi(),
-                getEperiencesRome(),
+                getExperiencesRome(),
                 getExperiencesFatih()
               ]).then(responses => responses.flat());
           }
@@ -215,8 +215,6 @@ return (
         </div>
       </div>
     </div>
-
-    {/* Mobile-only Toggle Button */}
     <div className="md:hidden fixed bottom-4 right-4 z-50">
       <button
         onClick={() => setMapFullScreen(!mapFullScreen)}
@@ -229,6 +227,9 @@ return (
     <div className='bg-[#fafafa] lg:px-30'>
       <Footer />
     </div>
+      <div className="block md:hidden">
+        <MobileFooter />
+      </div>
   </div>
 );
 

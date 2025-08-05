@@ -3,7 +3,6 @@ import { Share, Heart, Star, ChevronLeft, ChevronRight, Users, Calendar, Shield,
 import { Coffee, Wifi, Utensils, Wind, Zap, MapPin, Tv, Car, Home } from 'lucide-react';
 import { GoShare } from 'react-icons/go';
 import { X } from 'lucide-react'
-import { IoIosHeartEmpty } from 'react-icons/io';
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import ImageGallery from './ImageGallery';
@@ -11,7 +10,10 @@ import HotelInfo from './HotelInfo';
 import Reviews from './Reviews';
 import BookingCard from './HotelBookingCard';
 import CalendarComponent from './HotelCalendar';
+import { useUser } from '../contexts/UsersContext';
 import AboutHost from './AboutHost';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io'; 
+import MobileFooter from '../components/MobileFooter';
 
 const HotelFeatures = ({ hotel }) => {
     const features = [
@@ -182,7 +184,6 @@ const Amenities = ({ amenities }) => {
     );
 };
 
-
 const SleepingArrangements = ({ images }) => {
     if (!images || images.length === 0) return null;
 
@@ -269,6 +270,13 @@ const ErrorMessage = ({ message, onRetry }) => (
 );
 
 const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) => {
+    const {
+        currentUser,
+        isLoggedIn,
+        addToWishlist,
+        removeFromWishlist,
+    } = useUser();
+
     const [isSticky, setIsSticky] = useState(false);
     const [activeSection, setActiveSection] = useState('photos');
     const navbarRef = useRef(null);
@@ -278,14 +286,13 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
     const [checkOut, setCheckOut] = useState(null);
     const [guests, setGuests] = useState(1);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const isFavorite = currentUser?.wishlist?.includes(hotel.id);
 
-    // Handler for date selection (used by both components)
     const handleDateSelect = (checkInDate, checkOutDate) => {
         setCheckIn(checkInDate);
         setCheckOut(checkOutDate);
     };
 
-    // Handler for clicking date fields in booking card
     const handleDateClick = () => {
         setShowDatePicker(true);
         // Scroll to calendar
@@ -300,6 +307,38 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
     const handleGuestsChange = (newGuests) => {
         setGuests(newGuests);
     };
+    const toggleFavorite = (hotelId) => {
+        console.log('Toggle favorite called for hotelId:', hotelId);
+        console.log('isLoggedIn:', isLoggedIn);
+        console.log('currentUser wishlist before toggle:', currentUser?.wishlist);
+
+        if (!isLoggedIn) {
+            console.warn('User not logged in, cannot toggle favorite');
+            alert('Please log in to save hotels.');
+            return;
+        }
+
+        if (currentUser?.wishlist?.includes(hotelId)) {
+            console.log('Removing from wishlist:', hotelId);
+            removeFromWishlist(hotelId)
+                .then(() => {
+                    console.log('Successfully removed from wishlist');
+                })
+                .catch(err => {
+                    console.error('Error removing from wishlist:', err);
+                });
+        } else {
+            console.log('Adding to wishlist:', hotelId);
+            addToWishlist(hotelId)
+                .then(() => {
+                    console.log('Successfully added to wishlist');
+                })
+                .catch(err => {
+                    console.error('Error adding to wishlist:', err);
+                });
+        }
+    };
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -355,14 +394,26 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                                 <GoShare />
                                 <span>Share</span>
                             </div>
-                            <div className="flex items-center gap-1 text-sm">
-                                <IoIosHeartEmpty />
-                                <span>Save</span>
+                            <div className="flex items-center gap-1 text-sm cursor-pointer" onClick={() => toggleFavorite(hotel.id)}>
+                                {isFavorite ? (
+                                    <IoIosHeart className="text-red-500 w-5 h-5" />
+                                ) : (
+                                    <IoIosHeartEmpty className="w-5 h-5" />
+                                )}
+                                <span>{isFavorite ? 'Saved' : 'Save'}</span>
                             </div>
+
                         </div>
                     </div>
                     <div className="mb-8">
-                        <ImageGallery images={hotel.images} hotelName={hotel.name} hotel={hotel} />
+                        <ImageGallery
+                            images={hotel.images}
+                            hotelName={hotel.name}
+                            hotel={hotel}
+                            isFavorite={isFavorite}
+                            toggleFavorite={() => toggleFavorite(hotel.id)}
+                        />
+
                     </div>
                     <div className="flex flex-col lg:flex-row gap-8">
                         {/* Left column */}
@@ -391,12 +442,12 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                             <AboutThePlace />
                             <SleepingArrangements images={hotel.images} />
                             <Amenities amenities={hotel.amenities} />
-                             <CalendarComponent
-                checkIn={checkIn}
-                checkOut={checkOut}
-                onDateSelect={handleDateSelect}
-                title="Select your dates"
-              />
+                            <CalendarComponent
+                                checkIn={checkIn}
+                                checkOut={checkOut}
+                                onDateSelect={handleDateSelect}
+                                title="Select your dates"
+                            />
                         </div>
 
                         {/* Right column - Booking Card */}
@@ -417,7 +468,7 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                     <div>
                         <Reviews reviews={hotel.reviews} hostRating={hotel.host?.rating} />
                         <LocationInfo location={hotel.location} />
-                        <AboutHost hotel = {hotel}/>
+                        <AboutHost hotel={hotel} />
 
                     </div>
 
@@ -425,7 +476,14 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
 
                 </div>
             </div>
-           <div className='bg-[#fafafa]'><div className='max-w-6xl mx-auto'> <Footer /></div></div></div>
+            <div className='bg-[#fafafa]'><div className='max-w-6xl mx-auto'>
+                <Footer />
+            </div>
+            <div className="block md:hidden">
+                <MobileFooter />
+            </div>
+            </div>
+        </div>
     );
 };
 

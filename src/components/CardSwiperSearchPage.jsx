@@ -3,9 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const CardSwiperSearchPage = ({ results, searched, renderCard }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(9); // ✅ Declare this first
+  const [itemsPerPage, setItemsPerPage] = useState(9); 
 
-  // ✅ Update itemsPerPage based on screen width
   useEffect(() => {
     const updateItemsPerPage = () => {
       const width = window.innerWidth;
@@ -18,12 +17,12 @@ const CardSwiperSearchPage = ({ results, searched, renderCard }) => {
       }
     };
 
-    updateItemsPerPage(); // Initial run
+    updateItemsPerPage();
     window.addEventListener('resize', updateItemsPerPage);
     return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
-  const totalPages = Math.ceil(results.length / itemsPerPage); // ✅ Use it after it's defined
+  const totalPages = Math.ceil(results.length / itemsPerPage);
 
   const nextPage = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages);

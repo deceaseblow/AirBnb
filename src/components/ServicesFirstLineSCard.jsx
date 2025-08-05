@@ -6,7 +6,6 @@ function ServicesFirstLineSCard({ data, service, isFavorite, toggleFavorite, tot
 
     return (
         <div className="relative group cursor-pointer w-full">
-            {/* Fixed image container with proper aspect ratio */}
             <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
                 <img
                     src={service.image}
@@ -29,14 +28,12 @@ function ServicesFirstLineSCard({ data, service, isFavorite, toggleFavorite, tot
                 </div>
             </div>
 
-            {/* Improved content layout */}
             <div className="mt-3 space-y-1">
                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-1 font-sans">
                     {service.name}
                 </h3>
                 
                 <div className="space-y-1">
-                    {/* Host and location - stack on mobile */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                         <p className="text-gray-600 text-xs sm:text-sm font-sans truncate">
                             Hosted by {service.host?.name}
@@ -50,8 +47,6 @@ function ServicesFirstLineSCard({ data, service, isFavorite, toggleFavorite, tot
                     <p className="text-gray-600 text-xs sm:text-sm font-sans">
                         From ${service.price_per_person} / guest
                     </p>
-                    
-                    {/* Rating and reviews */}
                     <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1">
                             <Star className="w-3 h-3 fill-current text-gray-400" />

@@ -135,12 +135,10 @@ const GetawaysInspiration = () => {
 
   return (
     <div className="bg-[#fafafa] text-m text-gray-800 py-8 px-12 w-full">
-      {/* Header */}
       <h1 className="text-2xl font-semibold text-gray-900 mb-8">
         Inspiration for future getaways
       </h1>
 
-      {/* Tab Navigation */}
       <div className="border-b border-gray-200 mb-8">
         <nav className="flex space-x-8">
           {tabs.map((tab) => (
@@ -159,7 +157,6 @@ const GetawaysInspiration = () => {
         </nav>
       </div>
 
-      {/* Content Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-x-6 gap-y-4">
         {itemsToDisplay.map((item, index) => (
           <div key={index} className="group cursor-pointer">
@@ -174,7 +171,6 @@ const GetawaysInspiration = () => {
           </div>
         ))}
         
-        {/* Show more/less button - only show if there are more items than the threshold */}
         {shouldShowToggle && (
           <div 
             className="flex items-center cursor-pointer group"

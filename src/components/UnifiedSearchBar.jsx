@@ -98,7 +98,6 @@ function UnifiedSearchBar({ activeTab = 'home', setFocusedMode = () => { } }) {
 
         <div className="h-8 w-px bg-gray-300"></div>
 
-        {/* Dates / Date / When */}
         {activeTab === 'home' && (
           <>
             <div className="relative flex-1" onClick={() => { setFocusedMode(true); handleFocus('checkin'); }}>
@@ -196,7 +195,6 @@ function UnifiedSearchBar({ activeTab = 'home', setFocusedMode = () => { } }) {
 
         <div className="h-8 w-px bg-gray-300"></div>
 
-        {/* Guests or Type */}
         {activeTab === 'services' ? (
           <div className="relative flex-1" onClick={() => { setFocusedMode(true); handleFocus('typeof'); }}>
             <div className={`cursor-pointer pl-5 pr-3 py-2 rounded-full transition-colors flex items-center justify-between ${focused === 'typeof' ? 'bg-white shadow-xl' : 'hover:bg-gray-100'

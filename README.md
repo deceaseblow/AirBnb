@@ -14,9 +14,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 edilmeliler : 
 
-1) service + host detail page ler.
-2) pop out windowlar
-3) signing up 
-5) responsive mobile design +alt footer + navbar
-6) CRUD EMELIYYATLARI + wishlist anything to do with user da
-# AirBnb
+1) become a host window
+2) experiences detail page

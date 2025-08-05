@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Hotels CRUD
 import {
   getAllParisData, deleteParisHotel, addParisHotel, updateParisHotel,
   getAllLondonData, deleteLondonHotel, addLondonHotel, updateLondonHotel,
@@ -9,14 +8,12 @@ import {
   getAllTokyoData, deleteTokyoHotel, addTokyoHotel, updateTokyoHotel
 } from '../services/hotelService';
 
-// Experiences CRUD
 import {
   getExperiencesTbilisi, deleteExperienceTbilisi, addExperienceTbilisi, updateExperienceTbilisi,
   getExperiencesRome, deleteExperienceRome, addExperienceRome, updateExperienceRome,
   getExperiencesFatih, deleteExperienceFatih, addExperienceFatih, updateExperienceFatih
 } from '../services/experiencesService';
 
-// Services CRUD
 import {
   getServicesPhoto,
   getServicesChef,
@@ -52,7 +49,6 @@ const AdminPage = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [currentId, setCurrentId] = useState(null);
 
-  // Get empty form data structure
   function getEmptyFormData() {
     if (activeTab === 'experiences') {
       return {
@@ -86,7 +82,7 @@ const AdminPage = () => {
         description: ''
       };
     }
-    
+
     return {
       name: '',
       price_per_night: '',
@@ -122,13 +118,12 @@ const AdminPage = () => {
     };
   }
 
-  /* ✅ Fetch correct data */
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
         console.log(`📊 Fetching data for ${activeTab}/${subTab}`);
-        
+
         if (activeTab === 'hotels') {
           if (subTab === 'paris') setData(await getAllParisData());
           else if (subTab === 'london') setData(await getAllLondonData());
@@ -146,7 +141,7 @@ const AdminPage = () => {
           else if (subTab === 'massage') setData(await getServicesMassage());
           else if (subTab === 'paris') setData(await getServicesParis());
         }
-        
+
         console.log(`✅ Successfully fetched ${data.length} items`);
       } catch (error) {
         console.error('❌ Error fetching data:', error);
@@ -155,30 +150,27 @@ const AdminPage = () => {
         setLoading(false);
       }
     }
-    
+
     if (subTab) {
       fetchData();
     }
   }, [activeTab, subTab]);
 
-  /* ✅ Find item by ID */
   const findItemById = (id) => {
     const item = data.find(item => item.id === id);
     console.log(`🔍 Finding item with ID ${id}:`, item);
     return item;
   };
 
-  /* ✅ Handle View Details */
   const handleViewDetails = (id) => {
     const item = findItemById(id);
     setSelectedItem(item);
     setShowDetails(true);
   };
 
-  /* 🔧 Handle Delete - ENHANCED DEBUGGING */
   const handleDelete = async (id) => {
     console.log(`🗑️ DELETE REQUEST - ID: ${id}, Tab: ${activeTab}, SubTab: ${subTab}`);
-    
+
     if (!window.confirm('Are you sure you want to delete this item?')) {
       console.log('❌ Delete cancelled by user');
       return;
@@ -186,7 +178,7 @@ const AdminPage = () => {
 
     try {
       console.log(`🎯 Attempting to delete item ${id} from ${activeTab}/${subTab}`);
-      
+
       let deleteFunction;
       let functionName;
 
@@ -239,19 +231,18 @@ const AdminPage = () => {
 
       console.log(`🚀 Calling ${functionName}(${id})`);
       console.log(`📋 Function exists:`, typeof deleteFunction === 'function');
-      
+
       const result = await deleteFunction(id);
       console.log(`✅ Delete result:`, result);
-      
-      // Update local state only after successful deletion
+
       setData(prevData => {
         const newData = prevData.filter(item => item.id !== id);
         console.log(`📊 Updated local data. Before: ${prevData.length}, After: ${newData.length}`);
         return newData;
       });
-      
+
       console.log('🎉 Item deleted successfully');
-      
+
     } catch (error) {
       console.error('❌ Delete error:', error);
       console.error('📍 Error stack:', error.stack);
@@ -259,7 +250,6 @@ const AdminPage = () => {
     }
   };
 
-  /* ✅ Open Add Modal */
   const handleAdd = () => {
     console.log(`➕ Opening add modal for ${activeTab}`);
     setIsUpdate(false);
@@ -268,10 +258,9 @@ const AdminPage = () => {
     setIsModalOpen(true);
   };
 
-  /* 🔧 Open Update Modal - ENHANCED DEBUGGING */
   const handleUpdate = (id) => {
     console.log(`📝 UPDATE REQUEST - ID: ${id}, Tab: ${activeTab}, SubTab: ${subTab}`);
-    
+
     const item = findItemById(id);
     if (!item) {
       console.error(`❌ Item with ID ${id} not found in data:`, data);
@@ -283,8 +272,7 @@ const AdminPage = () => {
 
     setIsUpdate(true);
     setCurrentId(id);
-    
-    // Create a deep copy with proper structure
+
     const emptyForm = getEmptyFormData();
     const updatedFormData = {
       ...emptyForm,
@@ -313,20 +301,19 @@ const AdminPage = () => {
       reviews: Array.isArray(item.reviews) ? item.reviews : [],
       images: Array.isArray(item.images) ? item.images : []
     };
-    
+
     console.log(`📋 Prepared form data for update:`, updatedFormData);
     setFormData(updatedFormData);
     setIsModalOpen(true);
   };
 
-  /* 🔧 Submit Add/Update - ENHANCED DEBUGGING */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     console.log(`💾 SUBMIT REQUEST - Mode: ${isUpdate ? 'UPDATE' : 'CREATE'}`);
     console.log(`📍 Target: ${activeTab}/${subTab}, ID: ${currentId}`);
     console.log(`📋 Form data:`, formData);
-    
+
     try {
       let result;
       let functionName;
@@ -389,13 +376,12 @@ const AdminPage = () => {
         result = await targetFunction(formData);
       }
 
-      console.log(`✅ ${functionName} result:`, result);
+      console.log(` ${functionName} result:`, result);
 
       if (!result) {
         throw new Error('No result returned from API');
       }
 
-      // Update local state
       if (isUpdate) {
         setData(prevData => {
           const newData = prevData.map(item => (item.id === currentId ? result : item));
@@ -412,7 +398,7 @@ const AdminPage = () => {
 
       setIsModalOpen(false);
       console.log(`🎉 ${isUpdate ? 'Update' : 'Create'} successful`);
-      
+
     } catch (error) {
       console.error(`❌ ${isUpdate ? 'Update' : 'Create'} error:`, error);
       console.error('📍 Error stack:', error.stack);
@@ -420,24 +406,22 @@ const AdminPage = () => {
     }
   };
 
-  /* ✅ Handle form input changes */
   const handleInputChange = (path, value) => {
     setFormData(prev => {
       const newData = { ...prev };
       const keys = path.split('.');
       let current = newData;
-      
+
       for (let i = 0; i < keys.length - 1; i++) {
         if (!current[keys[i]]) current[keys[i]] = {};
         current = current[keys[i]];
       }
-      
+
       current[keys[keys.length - 1]] = value;
       return newData;
     });
   };
 
-  /* ✅ Handle array input changes */
   const handleArrayChange = (path, value) => {
     const array = value.split(',').map(item => item.trim()).filter(item => item);
     handleInputChange(path, array);
@@ -445,26 +429,23 @@ const AdminPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin Page - Debug Mode</h1>
-      
-      {/* Debug Info */}
+      <h1 className="text-2xl font-bold mb-4">Admin Page</h1>
+
       <div className="mb-4 p-3 bg-gray-100 rounded text-sm">
-        <strong>Debug Info:</strong> {activeTab}/{subTab} | Items: {data.length} | 
-        Modal: {isModalOpen ? 'Open' : 'Closed'} | 
-        Mode: {isUpdate ? 'Update' : 'Create'} | 
+        <strong>Info:</strong> {activeTab}/{subTab} | Items: {data.length} |
+        Modal: {isModalOpen ? 'Open' : 'Closed'} |
+        Mode: {isUpdate ? 'Update' : 'Create'} |
         Current ID: {currentId || 'None'}
       </div>
 
-      {/* Main Tabs */}
       <div className="flex gap-4 mb-6">
         {['hotels', 'experiences', 'services'].map(tab => (
           <button
             key={tab}
             className={`px-4 py-2 rounded ${activeTab === tab ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            onClick={() => { 
+            onClick={() => {
               console.log(`🔄 Switching to tab: ${tab}`);
-              setActiveTab(tab); 
-              // Set default subtab based on the selected tab
+              setActiveTab(tab);
               if (tab === 'hotels') setSubTab('paris');
               else if (tab === 'experiences') setSubTab('tbilisi');
               else if (tab === 'services') setSubTab('photo');
@@ -475,7 +456,6 @@ const AdminPage = () => {
         ))}
       </div>
 
-      {/* Sub Tabs */}
       <div className="flex gap-2 mb-4">
         {activeTab === 'hotels' && ['paris', 'london', 'seoul', 'tokyo'].map(city => (
           <button
@@ -515,7 +495,6 @@ const AdminPage = () => {
         ))}
       </div>
 
-      {/* Table */}
       {loading ? (
         <p>Loading...</p>
       ) : subTab ? (
@@ -547,20 +526,20 @@ const AdminPage = () => {
                     {(activeTab === 'hotels' || activeTab === 'experiences') && <td className="border p-2">{item.host?.name || 'N/A'}</td>}
                     <td className="border p-2">
                       <div className="flex gap-2 flex-wrap">
-                        <button 
-                          className="bg-blue-500 text-white px-2 py-1 rounded text-sm" 
+                        <button
+                          className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
                           onClick={() => handleViewDetails(item.id)}
                         >
                           View Details
                         </button>
-                        <button 
-                          className="bg-yellow-500 text-white px-2 py-1 rounded text-sm" 
+                        <button
+                          className="bg-yellow-500 text-white px-2 py-1 rounded text-sm"
                           onClick={() => handleUpdate(item.id)}
                         >
                           Update
                         </button>
-                        <button 
-                          className="bg-red-500 text-white px-2 py-1 rounded text-sm" 
+                        <button
+                          className="bg-red-500 text-white px-2 py-1 rounded text-sm"
                           onClick={() => handleDelete(item.id)}
                         >
                           Delete
@@ -577,20 +556,19 @@ const AdminPage = () => {
         <p>Select a sub-category</p>
       )}
 
-      {/* Details Modal */}
       {showDetails && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto w-full mx-4">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Item Details</h2>
-              <button 
+              <button
                 className="text-gray-500 hover:text-gray-700 text-xl"
                 onClick={() => setShowDetails(false)}
               >
                 ×
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -601,7 +579,7 @@ const AdminPage = () => {
                   {selectedItem.price_per_person && <p><strong>Price/Person:</strong> ${selectedItem.price_per_person}</p>}
                   {selectedItem.description && <p><strong>Description:</strong> {selectedItem.description}</p>}
                 </div>
-                
+
                 {selectedItem.location && (
                   <div>
                     <h3 className="font-semibold">Location</h3>
@@ -707,14 +685,11 @@ const AdminPage = () => {
         </div>
       )}
 
-      {/* Add/Update Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto w-full mx-4">
             <h2 className="text-xl mb-4">{isUpdate ? 'Update Item' : 'Add New Item'}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              
-              {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Name *</label>
@@ -726,7 +701,7 @@ const AdminPage = () => {
                     required
                   />
                 </div>
-                
+
                 {activeTab === 'hotels' && (
                   <div>
                     <label className="block text-sm font-medium mb-1">Price per Night</label>
@@ -761,8 +736,6 @@ const AdminPage = () => {
                   onChange={(e) => handleInputChange('description', e.target.value)}
                 />
               </div>
-
-              {/* Location */}
               <div>
                 <h3 className="text-lg font-semibold mb-2">Location</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -799,8 +772,6 @@ const AdminPage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Host Information (for hotels and experiences) */}
               {(activeTab === 'hotels' || activeTab === 'experiences') && (
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Host Information</h3>
@@ -912,8 +883,6 @@ const AdminPage = () => {
                   </div>
                 </div>
               )}
-
-              {/* Sleeping Arrangements (for hotels only) */}
               {activeTab === 'hotels' && (
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Sleeping Arrangements</h3>
@@ -939,8 +908,6 @@ const AdminPage = () => {
                   </div>
                 </div>
               )}
-
-              {/* Amenities (for hotels only) */}
               {activeTab === 'hotels' && (
                 <div>
                   <label className="block text-sm font-medium mb-1">Amenities (comma-separated)</label>
@@ -952,8 +919,6 @@ const AdminPage = () => {
                   />
                 </div>
               )}
-
-              {/* What You Will Do (for experiences only) */}
               {activeTab === 'experiences' && (
                 <div>
                   <label className="block text-sm font-medium mb-1">What You Will Do (comma-separated)</label>
@@ -965,8 +930,6 @@ const AdminPage = () => {
                   />
                 </div>
               )}
-
-              {/* Things to Know (for experiences only) */}
               {activeTab === 'experiences' && (
                 <div>
                   <label className="block text-sm font-medium mb-1">Things to Know (comma-separated)</label>
@@ -978,8 +941,6 @@ const AdminPage = () => {
                   />
                 </div>
               )}
-
-              {/* Images */}
               <div>
                 <h3 className="text-lg font-semibold mb-2">Images</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1003,18 +964,16 @@ const AdminPage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Form Actions */}
               <div className="flex justify-end gap-2 pt-4 border-t">
-                <button 
-                  type="button" 
-                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" 
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                   onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                   {isUpdate ? 'Update' : 'Create'}

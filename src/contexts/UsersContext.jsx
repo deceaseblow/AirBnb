@@ -4,7 +4,8 @@ import {
   updateUser,
   deleteUser,
   addToWishlistService,
-  removeFromWishlistService
+  removeFromWishlistService,
+  getUserById
 } from '../services/userServices';
 
 const UserContext = createContext();
@@ -22,16 +23,33 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // ✅ Load user from localStorage on app start
+  const sanitizeUser = (user) => ({
+    ...user,
+    interests: Array.isArray(user.interests) ? user.interests : [],
+    languages_spoken: Array.isArray(user.languages_spoken) ? user.languages_spoken : [],
+    places_visited: Array.isArray(user.places_visited) ? user.places_visited : [],
+  });
   useEffect(() => {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser));
-    }
+    const syncUser = async () => {
+      const savedUser = localStorage.getItem('currentUser');
+      if (savedUser) {
+        try {
+          const parsed = JSON.parse(savedUser);
+          const freshUser = await getUserById(parsed.id);
+          const sanitized = sanitizeUser(freshUser);
+          setCurrentUser(sanitized);
+          localStorage.setItem('currentUser', JSON.stringify(sanitized));
+        } catch (err) {
+          console.error("Error syncing user:", err);
+          setCurrentUser(null);
+          localStorage.removeItem('currentUser');
+        }
+      }
+    };
+
+    syncUser();
   }, []);
 
-  // ✅ Fetch all users
   useEffect(() => {
     const loadUsers = async () => {
       try {
@@ -47,55 +65,64 @@ export const UserProvider = ({ children }) => {
     loadUsers();
   }, []);
 
-  // ✅ Login
-  const login = (username, password) => {
-    const user = users.find(u => u.username === username && u.password === password);
+  const login = async (username, password) => {
+    const allUsers = await getUsers();
+    const user = allUsers.find(u => u.username === username && u.password === password);
     if (user) {
-      setCurrentUser(user);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      return { success: true, user };
+      const sanitized = sanitizeUser(user);
+      setCurrentUser(sanitized);
+      localStorage.setItem('currentUser', JSON.stringify(sanitized));
+      return { success: true, user: sanitized };
     }
     return { success: false, message: 'Invalid credentials' };
   };
 
-  // ✅ Logout
+
   const logout = () => {
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
   };
 
-  // ✅ Wishlist check
   const isInWishlist = (id) => {
     return currentUser?.wishlist?.includes(id);
   };
 
-  // ✅ Add to wishlist
-  const addToWishlist = async (id) => {
-    if (!currentUser) return;
-    const updated = await addToWishlistService(currentUser.id, id);
-    setCurrentUser(updated);
-    localStorage.setItem('currentUser', JSON.stringify(updated)); // keep persistent
-  };
+const addToWishlist = async (hotelId) => {
+  if (!currentUser) return;
 
-  // ✅ Remove from wishlist
-  const removeFromWishlist = async (id) => {
-    if (!currentUser) return;
-    const updated = await removeFromWishlistService(currentUser.id, id);
-    setCurrentUser(updated);
-    localStorage.setItem('currentUser', JSON.stringify(updated));
-  };
+  try {
+    const updatedUser = await addToWishlistService(currentUser, hotelId);
+    const sanitized = sanitizeUser(updatedUser);
+    setCurrentUser(sanitized);
+    localStorage.setItem('currentUser', JSON.stringify(sanitized));
+  } catch (err) {
+    console.error('Add to wishlist failed:', err);
+  }
+};
 
-  // ✅ Admin update user
+const removeFromWishlist = async (hotelId) => {
+  if (!currentUser) return;
+
+  try {
+    const updatedUser = await removeFromWishlistService(currentUser, hotelId);
+    const sanitized = sanitizeUser(updatedUser);
+    setCurrentUser(sanitized);
+    localStorage.setItem('currentUser', JSON.stringify(sanitized));
+  } catch (err) {
+    console.error('Remove from wishlist failed:', err);
+  }
+};
+
   const updateUserData = async (id, data) => {
     const updated = await updateUser(id, data);
     setUsers((prev) => prev.map(u => u.id === id ? updated : u));
     if (currentUser?.id === id) {
-      setCurrentUser(updated);
-      localStorage.setItem('currentUser', JSON.stringify(updated));
+      const sanitized = sanitizeUser(updated);
+      setCurrentUser(sanitized);
+      localStorage.setItem('currentUser', JSON.stringify(sanitized));
     }
-  };
 
-  // ✅ Admin delete user
+  };
   const deleteUserData = async (id) => {
     await deleteUser(id);
     setUsers((prev) => prev.filter(u => u.id !== id));
@@ -123,7 +150,7 @@ export const UserProvider = ({ children }) => {
     addToWishlist,
     removeFromWishlist,
     updateUserData,
-    deleteUserData
+    deleteUserData,
   };
 
   return (

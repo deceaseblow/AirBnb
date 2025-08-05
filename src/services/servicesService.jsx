@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
+const BASE_URL = import.meta.env.VITE_BASE_URL 
 
-/* ========= GET ========= */
 async function getServicesPhoto() {
     try {
         const res = await axios.get(`${BASE_URL}/servicesPhoto`)
@@ -40,7 +39,6 @@ async function getServicesParis(){
     }
 }
 
-/* ========= CREATE ========= */
 async function addServicePhoto(data) {
     return (await axios.post(`${BASE_URL}/servicesPhoto`, data)).data;
 }
@@ -54,7 +52,6 @@ async function addServiceParis(data) {
     return (await axios.post(`${BASE_URL}/servicesParis`, data)).data;
 }
 
-/* ========= UPDATE ========= */
 async function updateServicePhoto(id, data) {
     return (await axios.put(`${BASE_URL}/servicesPhoto/${id}`, data)).data;
 }
@@ -68,7 +65,6 @@ async function updateServiceParis(id, data) {
     return (await axios.put(`${BASE_URL}/servicesParis/${id}`, data)).data;
 }
 
-/* ========= DELETE ========= */
 async function deleteServicePhoto(id) {
     return (await axios.delete(`${BASE_URL}/servicesPhoto/${id}`)).data;
 }

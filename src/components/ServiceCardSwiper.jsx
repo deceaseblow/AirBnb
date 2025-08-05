@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ServiceCard from './ServiceCard';
+import { useUser } from '../contexts/UsersContext'; // ← use the same context as HotelCardSwiper
 
 function ServiceCardSwiper({ services, title }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [favorites, setFavorites] = useState([]);
   const [cardsPerView, setCardsPerView] = useState(6);
+
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser(); // ← same API
 
   useEffect(() => {
     function updateCardsPerView() {
       const width = window.innerWidth;
-       if (width < 640) {        
-        setCardsPerView(2)
-      } else if (width < 1024) { 
-        setCardsPerView(3)
-      } else if (width < 1280) {
-        setCardsPerView(4)
-      }
-      else if (width < 1536) {
-        setCardsPerView(5)
-      }
-      else {                    
-        setCardsPerView(6)
-      }
-      setCurrentIndex(0)  
+      if (width < 640) setCardsPerView(2);
+      else if (width < 1024) setCardsPerView(3);
+      else if (width < 1280) setCardsPerView(4);
+      else if (width < 1536) setCardsPerView(5);
+      else setCardsPerView(6);
+      setCurrentIndex(0);
     }
 
     updateCardsPerView();
@@ -44,11 +38,13 @@ function ServiceCardSwiper({ services, title }) {
   };
 
   const toggleFavorite = (id) => {
-    setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(favId => favId !== id)
-        : [...prev, id]
-    );
+    if (!isLoggedIn) return;
+
+    if (currentUser?.wishlist?.includes(id)) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist(id);
+    }
   };
 
   if (!services || services.length === 0) return <div>Loading...</div>;
@@ -62,7 +58,7 @@ function ServiceCardSwiper({ services, title }) {
         <div className='flex items-center'>
           <h1 className="text-xl font-sans font-semibold">{title}</h1>
         </div>
-        
+
         <div className="flex gap-4">
           <button
             onClick={prevSlide}
@@ -94,8 +90,8 @@ function ServiceCardSwiper({ services, title }) {
             >
               <ServiceCard
                 service={service}
-                isFavorite={favorites.includes(service.id)}
-                toggleFavorite={toggleFavorite}
+                isFavorite={currentUser?.wishlist?.includes(service.id)}
+                toggleFavorite={() => toggleFavorite(service.id)}
               />
             </div>
           ))}
@@ -106,3 +102,4 @@ function ServiceCardSwiper({ services, title }) {
 }
 
 export default ServiceCardSwiper;
+  

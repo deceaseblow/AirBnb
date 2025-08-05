@@ -113,42 +113,42 @@ const MapComponent = ({ results, searched }) => {
 
       <style>
         {`
-.price-bubble {
-  background: white;
-  border-radius: 9999px;
-  padding: 4px 5px;
-  font-weight: bold;
-  color: black;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  white-space: nowrap;
+          .price-bubble {
+            background: white;
+            border-radius: 9999px;
+            padding: 4px 5px;
+            font-weight: bold;
+            color: black;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
 
-    .leaflet-control-attribution {
-      display: none !important;
-    }
+              .leaflet-control-attribution {
+                display: none !important;
+              }
 
-    
-    .leaflet-control-zoom {
-      border: none;
-      border-radius: 30px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-      .leaflet-top.leaflet-right {
-  top: 50px !important; /* 👈 pushes the zoom control down */
-}
+              
+              .leaflet-control-zoom {
+                border: none;
+                border-radius: 30px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+              }
+                .leaflet-top.leaflet-right {
+            top: 50px !important; /* 👈 pushes the zoom control down */
+          }
 
-.leaflet-control-zoom {
-  border: none;
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-  `}
+          .leaflet-control-zoom {
+            border: none;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          }
+        `}
       </style>
 
     </>
