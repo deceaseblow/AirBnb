@@ -72,7 +72,7 @@ const ServiceDetailPage = () => {
         <Navbar forceScrolled={true} />
       </div>
 
-      <div className="min-h-screen pt-20">
+      <div className="">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/2 lg:h-screen lg:sticky top-0 flex flex-col justify-between items-center bg-white pt-30">
             <div className="max-w-md w-full">
@@ -134,7 +134,7 @@ const ServiceDetailPage = () => {
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 min-h-screen overflow-y-auto">
+          <div className="w-full lg:w-1/2 min-h-screen overflow-y-auto pt-3">
             <ServiceCard service={service} />
           </div>
         </div>
