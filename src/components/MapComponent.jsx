@@ -58,7 +58,14 @@ const MapComponent = ({ results, searched }) => {
       const loc = fullItem?.location?.coordinates;
       if (!loc) return null;
 
-      const price = fullItem?.price_per_person;
+      // Check if ID starts with 1, 2, 3, or 4 to determine which price field to use
+      const itemId = String(item?.id || '');
+      const startsWithHomeId = itemId.startsWith('1') || itemId.startsWith('2') || itemId.startsWith('3') || itemId.startsWith('4');
+      
+      const price = startsWithHomeId 
+        ? fullItem?.price_per_night 
+        : fullItem?.price_per_person;
+
       return {
         id: item.id,
         name: fullItem?.name || item.name || 'Unknown',

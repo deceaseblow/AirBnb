@@ -8,11 +8,10 @@ import MobileFooter from '../components/MobileFooter';
 import { HomeIcon } from 'lucide-react';
 import HomeIcon1 from "../components/icons/HomeIcon"
 import BecomeHostButton from '../components/BecomeAHostButton';
-
 function UserPage() {
-  const { currentUser, isLoggedIn, logout, updateUserData, deleteUserData } = useUser();
   const [activeTab, setActiveTab] = useState('about');
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false); 
+  const { currentUser, isLoggedIn, logout, updateUserData, deleteUserData } = useUser();
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
@@ -36,6 +35,9 @@ function UserPage() {
       logout();
       navigate('/');
     }
+  };
+   const handleLogout = () => {
+    logout();
   };
 
   const handleUpdate = async (updatedData) => {
@@ -121,11 +123,16 @@ function UserPage() {
               >
                 Delete Account
               </button>
+                <button
+                onClick={handleLogout}
+                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
+              >
+                Log out
+              </button>
+              
             </div>
           </div>
         </div>
-
-
         <div className="flex flex-col md:flex-row w-full min-h-[500px] md:min-h-[700px]">
           <div className="hidden md:block w-full md:w-1/3 lg:w-1/4 xl:w-1/5 border-r border-gray-200 py-6 lg:py-10 pr-4 lg:pr-6 space-y-2">
             <h2 className="text-xl lg:text-[36px] font-semibold mb-4">Profile</h2>
@@ -173,6 +180,12 @@ function UserPage() {
                 className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
               >
                 Delete Account
+              </button>
+                <button
+                onClick={handleLogout}
+                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
+              >
+                Log out
               </button>
             </div>
           </div>

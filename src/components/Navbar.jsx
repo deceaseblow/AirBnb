@@ -10,6 +10,8 @@ import MenuDropdown from './MenuDropdown';
 import UnifiedSearchBar from './UnifiedSearchBar';
 import { useUser } from '../contexts/UsersContext';
 import BecomeHostButton from './BecomeAHostButton';
+import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBarUnder({ icon: Icon = Search, onClick }) {
   return (
@@ -44,45 +46,47 @@ function MobileStartSearch({ onClick }) {
     </div>
   );
 }
+const locationMap = {
+  home: ['France', 'England', 'Japan', 'South Korea'],
+  experiences: ['Tbilisi', 'Rome', 'Fatih'],
+  services: ['Paris'],
+};
+
+const serviceTypes = ['Massage', 'Chef', 'Photo'];
 
 function MobileSearchExpanded({ activeTab, onClose }) {
   const [where, setWhere] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
+  const [date, setDate] = useState('');
   const [when, setWhen] = useState('');
-  const [guests, setGuests] = useState('');
-  const [service, setService] = useState('');
+  const [guests, setGuests] = useState({ adults: 0, teenagers: 0, babies: 0, pets: 0 });
+  const [typeOf, setTypeOf] = useState('');
+  const [showWhereDropdown, setShowWhereDropdown] = useState(false);
+  const [showServiceDropdown, setShowServiceDropdown] = useState(false);
+
+  const navigate = useNavigate();
+  const locations = locationMap[activeTab] || [];
+  const totalGuests = Object.values(guests).reduce((a, b) => a + b, 0);
+
+  const handleWhereSelect = (option) => {
+    setWhere(option);
+    setShowWhereDropdown(false);
+  };
+
+  const handleServiceSelect = (option) => {
+    setTypeOf(option);
+    setShowServiceDropdown(false);
+  };
 
   const handleSearch = () => {
-    const searchParams = new URLSearchParams();
+    const payload = {
+      searched: activeTab,
+      where,
+      typeOf: activeTab === 'services' ? typeOf : null,
+    };
 
-    if (where.trim()) {
-      searchParams.set('where', where.trim());
-    }
-
-    if (activeTab === 'home') {
-      if (checkIn.trim()) {
-        searchParams.set('checkIn', checkIn.trim());
-      }
-      if (checkOut.trim()) {
-        searchParams.set('checkOut', checkOut.trim());
-      }
-    } else {
-      if (when.trim()) {
-        searchParams.set('when', when.trim());
-      }
-    }
-
-    if (guests.trim()) {
-      searchParams.set('guests', guests.trim());
-    }
-
-    if (activeTab === 'services' && service.trim()) {
-      searchParams.set('service', service.trim());
-    }
-
-    const searchUrl = `/search?${searchParams.toString()}`;
-    window.location.href = searchUrl;
+    navigate('/search', { state: payload });
     onClose();
   };
 
@@ -97,27 +101,155 @@ function MobileSearchExpanded({ activeTab, onClose }) {
     }
   };
 
+  const renderWhereField = (placeholder) => (
+    <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors relative">
+      <div className="flex items-center gap-3">
+        <MapPin size={20} className="text-gray-600" />
+        <div className="flex-1">
+          <label className="block text-xs font-semibold text-gray-900 mb-1">
+            WHERE
+          </label>
+          <input
+            type="text"
+            value={where}
+            onChange={(e) => setWhere(e.target.value)}
+            onFocus={() => setShowWhereDropdown(true)}
+            placeholder={placeholder}
+            className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
+          />
+        </div>
+        <button
+          onClick={() => setShowWhereDropdown(!showWhereDropdown)}
+          className="p-1 hover:bg-gray-100 rounded"
+        >
+          <ChevronDown size={16} className="text-gray-600" />
+        </button>
+      </div>
+
+      {showWhereDropdown && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+          {locations.map((option) => (
+            <button
+              key={option}
+              onClick={() => handleWhereSelect(option)}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg text-sm"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderServiceField = () => (
+    <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors relative">
+      <div className="flex items-center gap-3">
+        <ServiceIcon size={20} className="text-gray-600" />
+        <div className="flex-1">
+          <label className="block text-xs font-semibold text-gray-900 mb-1">
+            TYPE OF
+          </label>
+          <input
+            type="text"
+            value={typeOf}
+            onChange={(e) => setTypeOf(e.target.value)}
+            onFocus={() => setShowServiceDropdown(true)}
+            placeholder="What service do you need?"
+            className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
+          />
+        </div>
+        <button
+          onClick={() => setShowServiceDropdown(!showServiceDropdown)}
+          className="p-1 hover:bg-gray-100 rounded mr-2"
+        >
+          <ChevronDown size={16} className="text-gray-600" />
+        </button>
+        <button
+          onClick={handleSearch}
+          className="bg-[#FF385C] hover:bg-red-600 text-white p-3 rounded-full transition-colors"
+        >
+          <Search size={16} />
+        </button>
+      </div>
+
+      {showServiceDropdown && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+          {serviceTypes.map((option) => (
+            <button
+              key={option}
+              onClick={() => handleServiceSelect(option)}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg text-sm"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderGuestsField = () => (
+    <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
+      <div className="flex items-center gap-3 mb-4">
+        <Users size={20} className="text-gray-600" />
+        <div className="flex-1">
+          <label className="block text-xs font-semibold text-gray-900 mb-1">
+            WHO
+          </label>
+          <div className="text-sm text-gray-600">
+            {totalGuests > 0 ? `${totalGuests} guest${totalGuests > 1 ? 's' : ''}` : 'Add guests'}
+          </div>
+        </div>
+        <button
+          onClick={handleSearch}
+          className="bg-[#FF385C] hover:bg-red-600 text-white p-3 rounded-full transition-colors"
+        >
+          <Search size={16} />
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        {Object.keys(guests).map((key) => (
+          <div className="flex justify-between items-center py-2" key={key}>
+            <div>
+              <div className="font-medium text-black capitalize">{key}</div>
+              {key === 'adults' && <div className="text-sm text-gray-500">Ages 13 or above</div>}
+              {key === 'teenagers' && <div className="text-sm text-gray-500">Ages 2-12</div>}
+              {key === 'babies' && <div className="text-sm text-gray-500">Under 2</div>}
+              {key === 'pets' && <div className="text-sm text-gray-500">Bringing a service animal?</div>}
+            </div>
+            <div className="flex items-center space-x-3">
+              <button
+                className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center hover:border-black disabled:opacity-30 disabled:cursor-not-allowed"
+                disabled={guests[key] === 0}
+                onClick={() => {
+                  setGuests({ ...guests, [key]: Math.max(0, guests[key] - 1) });
+                }}
+              >
+                −
+              </button>
+              <span className="w-6 text-center font-medium">{guests[key]}</span>
+              <button
+                className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center hover:border-black"
+                onClick={() => {
+                  setGuests({ ...guests, [key]: guests[key] + 1 });
+                }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   const renderFields = () => {
     if (activeTab === 'home') {
       return (
         <>
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <MapPin size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHERE
-                </label>
-                <input
-                  type="text"
-                  value={where}
-                  onChange={(e) => setWhere(e.target.value)}
-                  placeholder="Search destinations"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+          {renderWhereField('Search destinations')}
 
           <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
             <div className="flex items-center gap-3">
@@ -127,10 +259,9 @@ function MobileSearchExpanded({ activeTab, onClose }) {
                   CHECK IN
                 </label>
                 <input
-                  type="text"
+                  type="date"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
-                  placeholder="Add date"
                   className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
                 />
               </div>
@@ -145,55 +276,22 @@ function MobileSearchExpanded({ activeTab, onClose }) {
                   CHECK OUT
                 </label>
                 <input
-                  type="text"
+                  type="date"
                   value={checkOut}
                   onChange={(e) => setCheckOut(e.target.value)}
-                  placeholder="Add date"
                   className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
                 />
               </div>
             </div>
           </div>
 
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <Users size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHO
-                </label>
-                <input
-                  type="text"
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  placeholder="Add guests"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+          {renderGuestsField()}
         </>
       );
     } else if (activeTab === 'services') {
       return (
         <>
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <MapPin size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHERE
-                </label>
-                <input
-                  type="text"
-                  value={where}
-                  onChange={(e) => setWhere(e.target.value)}
-                  placeholder="Search locations"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+          {renderWhereField('Search locations')}
 
           <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
             <div className="flex items-center gap-3">
@@ -203,90 +301,41 @@ function MobileSearchExpanded({ activeTab, onClose }) {
                   WHEN
                 </label>
                 <input
-                  type="text"
+                  type="date"
                   value={when}
                   onChange={(e) => setWhen(e.target.value)}
-                  placeholder="Add dates"
                   className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
                 />
               </div>
             </div>
           </div>
 
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <ServiceIcon size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHAT SERVICE
-                </label>
-                <input
-                  type="text"
-                  value={service}
-                  onChange={(e) => setService(e.target.value)}
-                  placeholder="What service do you need?"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+          {renderServiceField()}
         </>
       );
     } else {
       return (
         <>
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <MapPin size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHERE
-                </label>
-                <input
-                  type="text"
-                  value={where}
-                  onChange={(e) => setWhere(e.target.value)}
-                  placeholder="Search destinations"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+          {renderWhereField('Search destinations')}
 
           <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
             <div className="flex items-center gap-3">
               <Calendar size={20} className="text-gray-600" />
               <div className="flex-1">
                 <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHEN
+                  DATE
                 </label>
                 <input
-                  type="text"
-                  value={when}
-                  onChange={(e) => setWhen(e.target.value)}
-                  placeholder="Add dates"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                   className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
                 />
               </div>
             </div>
           </div>
-          <div className="border border-gray-300 rounded-lg p-4 bg-white hover:border-gray-400 transition-colors">
-            <div className="flex items-center gap-3">
-              <Users size={20} className="text-gray-600" />
-              <div className="flex-1">
-                <label className="block text-xs font-semibold text-gray-900 mb-1">
-                  WHO
-                </label>
-                <input
-                  type="text"
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  placeholder="Add guests"
-                  className="w-full text-sm text-gray-600 placeholder-gray-400 border-none outline-none bg-transparent"
-                />
-              </div>
-            </div>
-          </div>
+
+          {renderGuestsField()}
         </>
       );
     }
@@ -343,16 +392,6 @@ function MobileSearchExpanded({ activeTab, onClose }) {
 
       <div className="space-y-4">
         {renderFields()}
-      </div>
-
-      <div className="mt-6">
-        <button
-          onClick={handleSearch}
-          className="w-full bg-[#ff385c] text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
-        >
-          <Search size={20} />
-          Search
-        </button>
       </div>
     </div>
   );

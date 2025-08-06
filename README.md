@@ -14,6 +14,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 edilmeliler : 
 
-1) Navbar search :D
 2) Become a host next button to make you host now, adding host array to add objects into
-3) 
+3) bookings ,, eh

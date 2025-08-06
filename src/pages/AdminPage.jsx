@@ -35,19 +35,23 @@ import {
   deleteServiceMassage,
   deleteServiceParis
 } from '../services/servicesService';
-
+import { useUser } from '../contexts/UsersContext';
+import { useNavigate } from 'react-router-dom';
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('hotels');
   const [subTab, setSubTab] = useState('paris');
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
-
+  const [dataLoading, setDataLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({});
   const [isUpdate, setIsUpdate] = useState(false);
   const [currentId, setCurrentId] = useState(null);
+
+ const { currentUser, isSuperAdmin, loading } = useUser(); 
+
+  const navigate = useNavigate();
 
   function getEmptyFormData() {
     if (activeTab === 'experiences') {
@@ -117,10 +121,23 @@ const AdminPage = () => {
       description: ''
     };
   }
+  useEffect(() => {
+    if (loading) return; // Wait for user context to finish loading
+
+    if (!currentUser || !isSuperAdmin) {
+      navigate('/', { replace: true });
+    }
+  }, [currentUser, isSuperAdmin, loading, navigate]);
+
+  useEffect(() => {
+  console.log("👤 currentUser:", currentUser);
+  console.log("🛡️ isSuperAdmin:", isSuperAdmin);
+  console.log("⏳ loading (context):", loading);
+}, [currentUser, isSuperAdmin, loading]);
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      setDataLoading(true);
       try {
         console.log(`📊 Fetching data for ${activeTab}/${subTab}`);
 
@@ -147,7 +164,7 @@ const AdminPage = () => {
         console.error('❌ Error fetching data:', error);
         alert('Error fetching data: ' + error.message);
       } finally {
-        setLoading(false);
+        setDataLoading(false);
       }
     }
 
@@ -229,11 +246,11 @@ const AdminPage = () => {
         throw new Error(`No delete function found for ${activeTab}/${subTab}`);
       }
 
-      console.log(`🚀 Calling ${functionName}(${id})`);
-      console.log(`📋 Function exists:`, typeof deleteFunction === 'function');
+      console.log(`Calling ${functionName}(${id})`);
+      console.log(`Function exists:`, typeof deleteFunction === 'function');
 
       const result = await deleteFunction(id);
-      console.log(`✅ Delete result:`, result);
+      console.log(` Delete result:`, result);
 
       setData(prevData => {
         const newData = prevData.filter(item => item.id !== id);
