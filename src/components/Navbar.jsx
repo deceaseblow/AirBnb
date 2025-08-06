@@ -9,6 +9,7 @@ import { IoSearchSharp } from 'react-icons/io5';
 import MenuDropdown from './MenuDropdown';
 import UnifiedSearchBar from './UnifiedSearchBar';
 import { useUser } from '../contexts/UsersContext';
+import BecomeHostButton from './BecomeAHostButton';
 
 function SearchBarUnder({ icon: Icon = Search, onClick }) {
   return (
@@ -311,8 +312,8 @@ function MobileSearchExpanded({ activeTab, onClose }) {
         <Link
           to="/home"
           className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'home'
-              ? 'text-black border-black'
-              : 'text-gray-600 border-transparent hover:text-gray-900'
+            ? 'text-black border-black'
+            : 'text-gray-600 border-transparent hover:text-gray-900'
             }`}
         >
           <HomeIcon size={16} />
@@ -321,8 +322,8 @@ function MobileSearchExpanded({ activeTab, onClose }) {
         <Link
           to="/experiences"
           className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'experiences'
-              ? 'text-black border-black'
-              : 'text-gray-600 border-transparent hover:text-gray-900'
+            ? 'text-black border-black'
+            : 'text-gray-600 border-transparent hover:text-gray-900'
             }`}
         >
           <BalloonIcon size={16} />
@@ -331,8 +332,8 @@ function MobileSearchExpanded({ activeTab, onClose }) {
         <Link
           to="/services"
           className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'services'
-              ? 'text-black border-black'
-              : 'text-gray-600 border-transparent hover:text-gray-900'
+            ? 'text-black border-black'
+            : 'text-gray-600 border-transparent hover:text-gray-900'
             }`}
         >
           <ServiceIcon size={16} />
@@ -463,16 +464,17 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
 
           <div className="flex gap-3 items-start py-4 ">
             <div className='flex items-center gap-2'>
-              <button className="hidden lg:flex py-1 text-sm font-medium text-gray-700 hover:text-gray-900">
-                Become a host
-              </button>
+
+              <BecomeHostButton
+                className="hidden lg:flex py-2 px-3 rounded-[20px] text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
+              />
 
               {isLoggedIn ? (
                 <Link to="/users/profile" className="flex-shrink-0">
                   <img
                     src={currentUser.profile_picture}
                     alt="User"
-                    className="w-8 h-8 rounded-full object-cover border border-gray-300 hover:scale-105 transition-transform"
+                    className="w-8 h-8 rounded-full object-cover border border-gray-300"
                   />
                 </Link>
               ) : (

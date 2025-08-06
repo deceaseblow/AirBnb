@@ -14,7 +14,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 edilmeliler : 
 
-1) become a host window
-2) experiences detail page
-3) services detail page i duzelt
-4) Navbar search :D
+1) Navbar search :D
+2) Become a host next button to make you host now, adding host array to add objects into
+3) 

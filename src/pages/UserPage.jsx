@@ -7,6 +7,7 @@ import UpdateUserModal from './UpdateUserModal';
 import MobileFooter from '../components/MobileFooter';
 import { HomeIcon } from 'lucide-react';
 import HomeIcon1 from "../components/icons/HomeIcon"
+import BecomeHostButton from '../components/BecomeAHostButton';
 
 function UserPage() {
   const { currentUser, isLoggedIn, logout, updateUserData, deleteUserData } = useUser();
@@ -102,7 +103,8 @@ function UserPage() {
             <div className="bg-white rounded-[20px] p-4 mb-6 cursor-pointer flex items-center gap-2"
               style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)' }}>
               <HomeIcon1 />
-              <div> <h4 className="text-sm font-medium mb-1">Become a host</h4>
+              <div>
+                <BecomeHostButton />
                 <p className="text-xs text-gray-500">It's easy to start hosting and earn extra income.</p></div>
             </div>
 
@@ -178,10 +180,11 @@ function UserPage() {
           <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-hidden">
             {activeTab === 'about' && (
               <>
-                <div className='max-w-6xl mx-auto px-20'>
+                <div className='max-w-6xl mx-auto px-10'>
                   <h1 className='text-[40px] font-semibold mb-10'>About Me</h1>
-                  <div className="hidden md:flex items-center space-x-4 lg:space-x-6 mb-6 lg:mb-8 flex">
-                    <div className="w-[520px] h-full bg-white rounded-2xl shadow-lg py-5 px-10 flex flex-col items-center justify-center">
+                  <div className="hidden md:flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-6 mb-6 lg:mb-8">
+                  <div className="w-full lg:w-[400px] h-full bg-white rounded-2xl shadow-lg py-5 px-20 flex flex-col items-center justify-center">
+
                       <img
                         src={currentUser.profile_picture}
                         className="w-20 h-20 lg:w-28 lg:h-28 rounded-full object-cover flex-shrink-0"
@@ -194,18 +197,22 @@ function UserPage() {
                         Joined on {new Date(currentUser.joined_on).toLocaleDateString()}
                       </p>
                     </div>
-                    <div className='flex flex-col gap-4'>
-                      <h1 className='font-semibold text-[25px]'>Complete your profile</h1>
-                      <p className='max-w-[400px]'>Your Airbnb profile is an important part of every reservation. Complete yours to help other hosts and guests get to know you.</p>
-                      <div className='max-w-[150px]'> <button
-                        onClick={() => setShowUpdateModal(true)}
-                        className="w-full bg-pink-600 text-white py-3 font-bold rounded-[20px] hover:bg-pink-700"
-                      >
-                        Get Started
-                      </button></div>
-                    </div>
 
-                  </div> <div className="space-y-6">
+                    <div className="flex flex-col gap-4 max-w-[400px]">
+                      <h1 className="font-semibold text-[25px]">Complete your profile</h1>
+                      <p>Your Airbnb profile is an important part of every reservation. Complete yours to help other hosts and guests get to know you.</p>
+                      <div className="max-w-[150px]">
+                        <button
+                          onClick={() => setShowUpdateModal(true)}
+                          className="w-full bg-pink-600 text-white py-3 font-bold rounded-[20px] hover:bg-pink-700"
+                        >
+                          Get Started
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-semibold mb-2">About me</h3>
                       <p className="text-gray-700 break-words">

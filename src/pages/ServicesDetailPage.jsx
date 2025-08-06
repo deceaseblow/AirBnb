@@ -73,7 +73,7 @@ const ServiceDetailPage = () => {
       </div>
 
       <div>
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row mt-10 md:mt-0">
+        <div className="max-w-7xl mx-auto flex flex-col px-10 lg:flex-row mt-10 md:mt-0">
           <div className="w-full lg:w-1/2 lg:h-screen lg:sticky top-0 flex flex-col justify-between items-center bg-white pt-30">
             <div className="max-w-md w-full">
               <div className="relative">

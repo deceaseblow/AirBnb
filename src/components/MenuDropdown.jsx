@@ -86,7 +86,7 @@ function MenuDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center rounded-full p-2 bg-gray-200 hover:bg-gray-300"
+        className="flex items-center rounded-full p-2 bg-gray-100 hover:bg-gray-200 "
       >
         <Menu size={16} />
       </button>

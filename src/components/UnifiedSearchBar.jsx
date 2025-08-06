@@ -66,11 +66,8 @@ function UnifiedSearchBar({ activeTab = 'home', setFocusedMode = () => { } }) {
 
   return (
     <div ref={containerRef} className="bg-white border border-gray-300 rounded-full shadow-lg flex items-center w-full max-w-4xl relative z-40">
-
       <div className="flex items-center flex-1">
-
         <div className="relative flex-1" onClick={() => { setFocusedMode(true); handleFocus('where'); }}>
-
           <div className={`cursor-pointer pl-6 py-3 pr-2 rounded-full transition-colors ${focused === 'where' ? 'bg-white shadow-xl' : 'hover:bg-gray-100'
             }`}>
             <div className="text-xs font-semibold text-black mb-1">Where</div>
@@ -260,7 +257,7 @@ function UnifiedSearchBar({ activeTab = 'home', setFocusedMode = () => { } }) {
                     <div className="flex items-center space-x-3">
                       <button
                         className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center hover:border-black disabled:opacity-30 disabled:cursor-not-allowed"
-                        disabled={guests[key] === 0}
+                        disabled={guests[key] === 0}  
                         onClick={(e) => {
                           e.stopPropagation();
                           setGuests({ ...guests, [key]: Math.max(0, guests[key] - 1) });
