@@ -54,11 +54,11 @@ function MobileSearchExpanded({ activeTab, onClose }) {
 
   const handleSearch = () => {
     const searchParams = new URLSearchParams();
-    
+
     if (where.trim()) {
       searchParams.set('where', where.trim());
     }
-    
+
     if (activeTab === 'home') {
       if (checkIn.trim()) {
         searchParams.set('checkIn', checkIn.trim());
@@ -71,15 +71,15 @@ function MobileSearchExpanded({ activeTab, onClose }) {
         searchParams.set('when', when.trim());
       }
     }
-    
+
     if (guests.trim()) {
       searchParams.set('guests', guests.trim());
     }
-    
+
     if (activeTab === 'services' && service.trim()) {
       searchParams.set('service', service.trim());
     }
-    
+
     const searchUrl = `/search?${searchParams.toString()}`;
     window.location.href = searchUrl;
     onClose();
@@ -301,42 +301,39 @@ function MobileSearchExpanded({ activeTab, onClose }) {
           <X size={20} className="text-gray-600" />
         </button>
         <h2 className="text-lg font-semibold text-gray-900">
-          {activeTab === 'experiences' ? 'Find experiences' : 
-           activeTab === 'services' ? 'Find services' : 'Find places'}
+          {activeTab === 'experiences' ? 'Find experiences' :
+            activeTab === 'services' ? 'Find services' : 'Find places'}
         </h2>
-        <div className="w-10" /> 
+        <div className="w-10" />
       </div>
 
       <div className="flex justify-center space-x-6 mb-6 border-b border-gray-200">
-        <Link 
-          to="/home" 
-          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'home' 
-              ? 'text-black border-black' 
+        <Link
+          to="/home"
+          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'home'
+              ? 'text-black border-black'
               : 'text-gray-600 border-transparent hover:text-gray-900'
-          }`}
+            }`}
         >
           <HomeIcon size={16} />
           <span>Stays</span>
         </Link>
-        <Link 
-          to="/experiences" 
-          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'experiences' 
-              ? 'text-black border-black' 
+        <Link
+          to="/experiences"
+          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'experiences'
+              ? 'text-black border-black'
               : 'text-gray-600 border-transparent hover:text-gray-900'
-          }`}
+            }`}
         >
           <BalloonIcon size={16} />
           <span>Experiences</span>
         </Link>
-        <Link 
-          to="/services" 
-          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'services' 
-              ? 'text-black border-black' 
+        <Link
+          to="/services"
+          className={`flex items-center space-x-2 pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'services'
+              ? 'text-black border-black'
               : 'text-gray-600 border-transparent hover:text-gray-900'
-          }`}
+            }`}
         >
           <ServiceIcon size={16} />
           <span>Services</span>
@@ -348,7 +345,7 @@ function MobileSearchExpanded({ activeTab, onClose }) {
       </div>
 
       <div className="mt-6">
-        <button 
+        <button
           onClick={handleSearch}
           className="w-full bg-[#ff385c] text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
         >
@@ -365,7 +362,7 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
   const [focusedMode, setFocusedMode] = useState(false);
   const [mobileSearchMode, setMobileSearchMode] = useState(false);
   const ticking = useRef(false);
-  const { currentUser, isLoggedIn } = useUser(); 
+  const { currentUser, isLoggedIn } = useUser();
 
   const location = useLocation();
   const activeTab = location.pathname.includes('experiences')
@@ -400,7 +397,7 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
   }, [focusedMode, mobileSearchMode]);
 
   const handleSearchBarClick = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 818) {
       setMobileSearchMode(true);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -424,7 +421,7 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
         <div className="fixed inset-0 z-40 bg-black/20 transition-all" onClick={() => setFocusedMode(false)} />
       )}
 
-     <div
+      <div
         className={`sticky top-0 z-50 transition-all duration-500 ease-in-out
     ${focusedMode ? 'bg-white shadow-2xl md:pt-3 md:pb-3' : 'bg-[#fafafa]'} 
     ${isScrolled && !focusedMode ? 'shadow-md' : 'shadow-sm'}
@@ -465,7 +462,7 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
           )}
 
           <div className="flex gap-3 items-start py-4 ">
-            <div className='flex items-center gap-2'> 
+            <div className='flex items-center gap-2'>
               <button className="hidden lg:flex py-1 text-sm font-medium text-gray-700 hover:text-gray-900">
                 Become a host
               </button>
@@ -494,8 +491,8 @@ function NavigationBar({ forceScrolled = false, hideCenter = false }) {
         <div className="md:hidden">
           {mobileSearchMode ? (
             <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
-              <MobileSearchExpanded 
-                activeTab={activeTab} 
+              <MobileSearchExpanded
+                activeTab={activeTab}
                 onClose={handleMobileSearchClose}
               />
             </div>

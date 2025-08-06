@@ -50,7 +50,7 @@ function SearchPage() {
 
         if (searched === 'home') {
           const city = (where || '').trim().toLowerCase();
-          switch (city) { 
+          switch (city) {
             case 'france':
               data = await getAllParisData();
               break;
@@ -138,100 +138,100 @@ function SearchPage() {
   if (loading) return <div className="p-4">Loading...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
-return (
-  <div className="relative">
-    <NavigationBar forceScrolled={true} />
+  return (
+    <div className="relative">
+      <NavigationBar forceScrolled={true} />
 
-    <div className="p-6 bg-[#fff] min-h-screen">
-      <div className="px-4 md:px-10">
-        <div className={`hidden md:flex gap-6 ${mapFullScreen ? 'flex-col' : ''}`}>
-          {!mapFullScreen && (
-            <div className="w-3/5">
-              <div className="flex justify-between">
-                <h1 className="text-[16px] font-semibold mb-8 text-gray-800 capitalize">
-                  Over {results.length} {searched} Results
-                </h1>
-                <div className="flex gap-2">
-                  <PriceTag />
+      <div className="p-6 bg-[#fff] min-h-screen">
+        <div className="px-4 md:px-10">
+          <div className={`hidden md:flex gap-6 ${mapFullScreen ? 'flex-col' : ''}`}>
+            {!mapFullScreen && (
+              <div className="w-3/5">
+                <div className="flex justify-between">
                   <h1 className="text-[16px] font-semibold mb-8 text-gray-800 capitalize">
-                    Price includes all fees
+                    Over {results.length} {searched} Results
                   </h1>
+                  <div className="flex gap-2">
+                    <PriceTag />
+                    <h1 className="text-[16px] font-semibold mb-8 text-gray-800 capitalize">
+                      Price includes all fees
+                    </h1>
+                  </div>
                 </div>
+                <CardSwiperSearchPage
+                  results={results}
+                  searched={searched}
+                  renderCard={renderCard}
+                />
               </div>
-              <CardSwiperSearchPage
-                results={results}
-                searched={searched}
-                renderCard={renderCard}
-              />
-            </div>
-          )}
+            )}
 
-          {/* Sticky desktop map */}
-          <div className={`${mapFullScreen ? 'w-full h-[85vh]' : 'w-2/5 h-[600px]'} relative rounded-xl overflow-hidden shadow-lg z-10`}>
-            <div className="sticky top-20 h-full">
-              <button
-                onClick={() => setMapFullScreen(!mapFullScreen)}
-                className="absolute top-2 right-2 z-900 bg-white p-2 rounded-full shadow-md"
-              >
-                {mapFullScreen ? <IoMdClose size={20} /> : <MdOpenInFull size={20} />}
-              </button>
-              <MapComponent results={results} searched={searched} />
+            {/* Sticky desktop map */}
+            <div className={`${mapFullScreen ? 'w-full h-[85vh]' : 'w-2/5 h-[600px]'} relative rounded-xl overflow-hidden shadow-lg z-10`}>
+              <div className="sticky top-20 h-full">
+                <button
+                  onClick={() => setMapFullScreen(!mapFullScreen)}
+                  className="absolute top-2 right-2 z-900 bg-white p-2 rounded-full shadow-md"
+                >
+                  {mapFullScreen ? <IoMdClose size={20} /> : <MdOpenInFull size={20} />}
+                </button>
+                <MapComponent results={results} searched={searched} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Mobile layout */}
-        <div className="md:hidden">
-          {mapFullScreen ? (
-            <div className="w-full h-[85vh] relative rounded-xl overflow-hidden shadow-lg z-10">
-              <button
-                onClick={() => setMapFullScreen(false)}
-                className="absolute top-2 right-2 z-20 bg-white p-2 rounded-full shadow-md"
-              >
-                <IoMdClose size={20} />
-              </button>
-              <MapComponent results={results} searched={searched} />
-            </div>
-          ) : (
-            <div>
-              <div className="flex justify-between">
-                <h1 className="text-[16px] font-semibold mb-4 text-gray-800 capitalize">
-                  Over {results.length} {searched} Results
-                </h1>
-                <div className="flex gap-2">
-                  <PriceTag />
-                  <h1 className="text-[16px] font-semibold text-gray-800 capitalize">
-                    Price includes all fees
-                  </h1>
-                </div>
+          {/* Mobile layout */}
+          <div className="md:hidden">
+            {mapFullScreen ? (
+              <div className="w-full h-[85vh] relative rounded-xl overflow-hidden shadow-lg z-10">
+                <button
+                  onClick={() => setMapFullScreen(false)}
+                  className="absolute top-2 right-2 z-20 bg-white p-2 rounded-full shadow-md"
+                >
+                  <IoMdClose size={20} />
+                </button>
+                <MapComponent results={results} searched={searched} />
               </div>
-              <CardSwiperSearchPage
-                results={results}
-                searched={searched}
-                renderCard={renderCard}
-              />
-            </div>
-          )}
+            ) : (
+              <div>
+                <div className="flex justify-between">
+                  <h1 className="text-[16px] font-semibold mb-4 text-gray-800 capitalize">
+                    Over {results.length} {searched} Results
+                  </h1>
+                  <div className="flex gap-2">
+                    <PriceTag />
+                    <h1 className="text-[16px] font-semibold text-gray-800 capitalize">
+                      Price includes all fees
+                    </h1>
+                  </div>
+                </div>
+                <CardSwiperSearchPage
+                  results={results}
+                  searched={searched}
+                  renderCard={renderCard}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-    <div className="md:hidden fixed bottom-4 right-4 z-50">
-      <button
-        onClick={() => setMapFullScreen(!mapFullScreen)}
-        className="bg-black text-white px-5 py-3 rounded-full shadow-lg"
-      >
-        {mapFullScreen ? 'Show Cards' : 'Show Map'}
-      </button>
-    </div>
+      <div className="md:hidden fixed bottom-4 right-4 z-50">
+        <button
+          onClick={() => setMapFullScreen(!mapFullScreen)}
+          className="bg-black text-white px-5 py-3 rounded-full shadow-lg"
+        >
+          {mapFullScreen ? 'Show Cards' : 'Show Map'}
+        </button>
+      </div>
 
-    <div className='bg-[#fafafa] lg:px-30'>
-      <Footer />
-    </div>
+      <div className='bg-[#fafafa] lg:px-30'>
+        <Footer />
+      </div>
       <div className="block md:hidden">
         <MobileFooter />
       </div>
-  </div>
-);
+    </div>
+  );
 
 }
 

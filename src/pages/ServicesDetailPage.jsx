@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAllData } from '../contexts/AllDataContext';
-import { useUser } from '../contexts/UsersContext'; 
+import { useUser } from '../contexts/UsersContext';
 import { GoShare, GoHeart } from "react-icons/go";
 import Navbar from '../components/Navbar';
 import ServiceCard from './ServiceCard';
@@ -72,8 +72,8 @@ const ServiceDetailPage = () => {
         <Navbar forceScrolled={true} />
       </div>
 
-      <div className="">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
+      <div>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row mt-10 md:mt-0">
           <div className="w-full lg:w-1/2 lg:h-screen lg:sticky top-0 flex flex-col justify-between items-center bg-white pt-30">
             <div className="max-w-md w-full">
               <div className="relative">
@@ -81,11 +81,17 @@ const ServiceDetailPage = () => {
                   src={service.image}
                   alt="Service"
                   className="w-full h-50 object-cover rounded-3xl"
-                />
+                />  
                 <img
-                  src={service.host.image}
-                  alt={service.host.name}
-                  className="w-16 h-16 rounded-full object-cover border-4 border-white absolute left-1/2 -translate-x-1/2 -bottom-8"
+                  src={service.host?.image ||
+                    "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk="
+                  }
+                  alt="Host"
+                 className="w-16 h-16 rounded-full object-cover border-4 border-white absolute left-1/2 -translate-x-1/2 -bottom-8"
+                  onError={(e) => {
+                    console.log('Image failed to load, using fallback');
+                    e.target.src = "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk=";
+                  }}
                 />
               </div>
 
@@ -110,7 +116,7 @@ const ServiceDetailPage = () => {
                     {isFavorite ? (
                       <GoHeart className="text-red-500" />
                     ) : (
-                      <GoHeart className="text-gray-400" />
+                      <GoHeart className="text-[#000]" />
                     )}
                   </button>
                 </div>
@@ -140,7 +146,7 @@ const ServiceDetailPage = () => {
         </div>
       </div>
 
-        <div className="block md:hidden">
+      <div className="block md:hidden">
         <MobileFooter />
       </div>
     </div>

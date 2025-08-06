@@ -28,7 +28,7 @@ function UserPage() {
       </div>
     );
   }
-  {/*IN CASE I DELETE LOOCAL STORAGE! */}
+  {/*IN CASE I DELETE LOOCAL STORAGE! */ }
   const handleDeleteAccount = async () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       await deleteUserData(currentUser.id);
@@ -51,9 +51,10 @@ function UserPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className='hidden md:block'> <NavigationBar hideCenter /></div>
+      <div className='hidden md:block'>
+        <NavigationBar hideCenter /></div>
 
-      <div className="flex-1 px-4 sm:px-30 lg:px-20">
+      <div className="flex-1 px-4 sm:px-30 pb-10 lg:px-20">
         {/* mobile version!!!!!!!!!*/}
         <div className="block md:hidden py-10 px-4">
           <div className='flex flex-col gap-3'>
@@ -125,11 +126,11 @@ function UserPage() {
 
         <div className="flex flex-col md:flex-row w-full min-h-[500px] md:min-h-[700px]">
           <div className="hidden md:block w-full md:w-1/3 lg:w-1/4 xl:w-1/5 border-r border-gray-200 py-6 lg:py-10 pr-4 lg:pr-6 space-y-2">
-            <h2 className="text-xl lg:text-2xl font-bold mb-4">Profile</h2>
+            <h2 className="text-xl lg:text-[36px] font-semibold mb-4">Profile</h2>
 
             <button
               onClick={() => setActiveTab('about')}
-              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'about' ? 'bg-gray-200 font-semibold' : 'bg-gray-100 hover:bg-gray-150'
+              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'about' ? 'bg-gray-100 font-semibold' : 'bg-gray-50 hover:bg-gray-150'
                 }`}
             >
               <img
@@ -142,19 +143,19 @@ function UserPage() {
 
             <button
               onClick={() => setActiveTab('trips')}
-              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'trips' ? 'bg-gray-200 font-semibold' : 'bg-gray-100 hover:bg-gray-150'
+              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'trips' ? 'bg-gray-100 font-semibold' : 'bg-gray-50 hover:bg-gray-150'
                 }`}
             >
-              <span role="img" aria-label="trips" className="flex-shrink-0">🧳</span>
+              <img src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-UserProfile/original/797c1df2-a40c-4d93-9550-ca5b213cd01b.png?im_w=720" alt="" className='w-10' />
               <span className="truncate">Past trips</span>
             </button>
 
             <button
               onClick={() => setActiveTab('connections')}
-              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'connections' ? 'bg-gray-200 font-semibold' : 'bg-gray-100 hover:bg-gray-150'
+              className={`w-full py-3 px-4 rounded-lg flex items-center space-x-3 text-left transition-colors ${activeTab === 'connections' ? 'bg-gray-100 font-semibold' : 'bg-gray-50 hover:bg-gray-150'
                 }`}
             >
-              <span role="img" aria-label="connections" className="flex-shrink-0">👥</span>
+              <img src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-UserProfile/original/3009d40c-3aa7-498b-a887-ba641d3bbcc6.png?im_w=720" alt="" className='w-10' />
               <span className="truncate">Connections</span>
             </button>
 
@@ -177,96 +178,131 @@ function UserPage() {
           <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-hidden">
             {activeTab === 'about' && (
               <>
-                <div className="hidden md:flex items-center space-x-4 lg:space-x-6 mb-6 lg:mb-8">
-                  <img
-                    src={currentUser.profile_picture}
-                    alt={currentUser.username}
-                    className="w-20 h-20 lg:w-28 lg:h-28 rounded-full object-cover border flex-shrink-0"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <h2 className="text-xl lg:text-2xl font-bold truncate">
-                      {currentUser.first_name} {currentUser.last_name}
-                    </h2>
-                    <p className="text-gray-600 truncate">@{currentUser.username}</p>
-                    <p className="text-sm text-gray-500">
-                      Joined on {new Date(currentUser.joined_on).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
+                <div className='max-w-6xl mx-auto px-20'>
+                  <h1 className='text-[40px] font-semibold mb-10'>About Me</h1>
+                  <div className="hidden md:flex items-center space-x-4 lg:space-x-6 mb-6 lg:mb-8 flex">
+                    <div className="w-[520px] h-full bg-white rounded-2xl shadow-lg py-5 px-10 flex flex-col items-center justify-center">
+                      <img
+                        src={currentUser.profile_picture}
+                        className="w-20 h-20 lg:w-28 lg:h-28 rounded-full object-cover flex-shrink-0"
+                      />
+                      <h2 className="text-xl lg:text-2xl font-bold truncate">
+                        {currentUser.first_name} {currentUser.last_name}
+                      </h2>
+                      <p className="text-gray-600 text-[14px]">@{currentUser.username}</p>
+                      <p className="text-sm text-gray-500 text-[12px]">
+                        Joined on {new Date(currentUser.joined_on).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className='flex flex-col gap-4'>
+                      <h1 className='font-semibold text-[25px]'>Complete your profile</h1>
+                      <p className='max-w-[400px]'>Your Airbnb profile is an important part of every reservation. Complete yours to help other hosts and guests get to know you.</p>
+                      <div className='max-w-[150px]'> <button
+                        onClick={() => setShowUpdateModal(true)}
+                        className="w-full bg-pink-600 text-white py-3 font-bold rounded-[20px] hover:bg-pink-700"
+                      >
+                        Get Started
+                      </button></div>
+                    </div>
 
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">About me</h3>
-                    <p className="text-gray-700 break-words">
-                      {currentUser.about_me || "nothing here yet.."}
-                    </p>
-                  </div>
+                  </div> <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">About me</h3>
+                      <p className="text-gray-700 break-words">
+                        {currentUser.about_me || "nothing here yet.."}
+                      </p>
+                    </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Interests</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {currentUser?.interests?.length > 0 ? (
-                        currentUser.interests.map((interest, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 break-words"
-                          >
-                            {interest}
-                          </span>
-                        ))
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Interests</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {currentUser?.interests?.length > 0 ? (
+                          currentUser.interests.map((interest, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 break-words"
+                            >
+                              {interest}
+                            </span>
+                          ))
+                        ) : (
+                          <p className="text-gray-500 text-sm">No interests added yet.</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Languages spoken</h3>
+                      <p className="text-gray-700 break-words">
+                        {currentUser.languages_spoken?.length > 0
+                          ? currentUser.languages_spoken.join(', ')
+                          : 'No languages specified.'}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Places visited</h3>
+                      {currentUser?.places_visited?.length > 0 ? (
+                        <ul className="list-disc list-inside text-gray-700 space-y-1">
+                          {currentUser.places_visited.map((place, i) => (
+                            <li key={i} className="break-words">{place}</li>
+                          ))}
+                        </ul>
                       ) : (
-                        <p className="text-gray-500 text-sm">No interests added yet.</p>
+                        <p className="text-gray-500">No places visited yet.</p>
                       )}
                     </div>
-                  </div>
+                  </div></div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Languages spoken</h3>
-                    <p className="text-gray-700 break-words">
-                      {currentUser.languages_spoken?.length > 0
-                        ? currentUser.languages_spoken.join(', ')
-                        : 'No languages specified.'}
-                    </p>
-                  </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Places visited</h3>
-                    {currentUser?.places_visited?.length > 0 ? (
-                      <ul className="list-disc list-inside text-gray-700 space-y-1">
-                        {currentUser.places_visited.map((place, i) => (
-                          <li key={i} className="break-words">{place}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-gray-500">No places visited yet.</p>
-                    )}
-                  </div>
-                </div>
               </>
             )}
-
             {activeTab === 'trips' && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Past Trips</h3>
-                <div className="text-center py-8">
-                  <span role="img" aria-label="suitcase" className="text-4xl mb-4 block">🧳</span>
-                  <p className="text-gray-500">You have no trips yet.</p>
+              <div className="max-w-6xl mx-auto px-6 md:px-20">
+                <h1 className="text-[32px] md:text-[40px] font-semibold mb-10">Past Trips</h1>
+
+                <div className="flex flex-col items-center text-center py-8">
+                  <img
+                    src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-UserProfile/original/797c1df2-a40c-4d93-9550-ca5b213cd01b.png?im_w=720"
+                    alt="No Trips"
+                    className="w-[300px]"
+                  />
+                  <p className="text-gray-500 mt-6">You have no trips yet.</p>
                   <p className="text-sm text-gray-400 mt-2">
                     Start planning your first adventure!
                   </p>
+
+                  <button
+                    onClick={() => navigate('/home')}
+                    className="mt-6 px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition"
+                  >
+                    Book a trip
+                  </button>
                 </div>
               </div>
             )}
 
             {activeTab === 'connections' && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Connections</h3>
-                <div className="text-center py-8">
-                  <span role="img" aria-label="people" className="text-4xl mb-4 block">👥</span>
-                  <p className="text-gray-500">No connections yet.</p>
+              <div className='max-w-6xl mx-auto px-20'>
+                <h1 className='text-[40px] font-semibold mb-10'>Connections</h1>
+
+                <div className="flex flex-col items-center text-center py-8">
+                  <img
+                    src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-UserProfile/original/e7a31b6a-2370-4cec-8bd7-8943d4130a8e.png?im_w=720"
+                    alt=""
+                    className='w-[500px]'
+                  />
+                  <p className="text-gray-500 mt-4">No connections yet.</p>
                   <p className="text-sm text-gray-400 mt-2">
                     Connect with fellow travelers!
                   </p>
+
+                  <button
+                    onClick={() => navigate('/home')}
+                    className="mt-6 px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition"
+                  >
+                    Book a trip
+                  </button>
                 </div>
               </div>
             )}

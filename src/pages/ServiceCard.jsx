@@ -3,6 +3,7 @@ import { Star, MapPin, Clock, User, Camera } from 'lucide-react';
 import { useState } from "react";
 import { Users, Accessibility, Calendar } from 'lucide-react';
 import vet from "../assets/vet-icons/vet_icon.avif"
+import { X } from 'lucide-react';
 
 function ReviewCard({ review }) {
     const [showMore, setShowMore] = useState(false);
@@ -48,13 +49,12 @@ function ReviewCard({ review }) {
         </div>
     );
 }
-
 const ServiceCard = ({ service }) => {
+    const [showModal, setShowModal] = useState(false);
     const averageRating = (
         service.reviews.reduce((sum, review) => sum + review.rating, 0) /
         service.reviews.length
     ).toFixed(1);
-
     return (
         <div className="bg-white rounded-2xl overflow-hidden">
             <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -102,9 +102,15 @@ const ServiceCard = ({ service }) => {
                         <div className="flex gap-6 md:flex-row">
                             <div className="w-[350px] h-full bg-white rounded-2xl shadow-lg py-6 px-3 flex flex-col items-center">
                                 <img
-                                    src={service.host.image}
-                                    alt={service.host.name}
+                                    src={service.host?.image ||
+                                        "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk="
+                                    }
+                                    alt="Host"
                                     className="w-24 h-24 rounded-full object-cover mb-4"
+                                    onError={(e) => {
+                                        console.log('Image failed to load, using fallback');
+                                        e.target.src = "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk=";
+                                    }}
                                 />
                                 <h2 className="text-2xl font-bold text-gray-900 mb-1">{service.host.name}</h2>
                                 <p className="text-gray-600 text-sm">{service.host.work}</p>
@@ -217,6 +223,45 @@ const ServiceCard = ({ service }) => {
                         </div>
 
                     </div>
+                    {showModal && (
+                        <div className="fixed inset-0 z-90 flex items-center justify-center px-4"
+                            style={{ backgroundColor: 'rgba(168, 168, 168, 0.44)' }}>
+                            <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-6 relative shadow-xl">
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                                >
+                                    <X size={24} />
+                                </button>
+                                <h2 className="text-2xl font-semibold text-gray-900 mb-6">All Reviews</h2>
+
+                                <div className="space-y-6">
+                                    {service.reviews.map((review, index) => (
+                                        <div key={index} className="space-y-3 pb-4">
+                                            <div className="flex items-center space-x-3">
+                                                <img
+                                                    src={review.image || `https://ui-avatars.com/api/?name=${review.reviewer}&background=random`}
+                                                    alt={review.reviewer}
+                                                    className="w-10 h-10 rounded-full object-cover"
+                                                />
+                                                <div>
+                                                    <p className="font-semibold text-gray-900">{review.reviewer}</p>
+                                                    <div className="flex items-center space-x-1 text-sm text-gray-500">
+                                                        {Array.from({ length: review.rating }, (_, i) => (
+                                                            <Star key={i} size={12} className="text-gray-900 fill-current" />
+                                                        ))}
+                                                        <span>•</span>
+                                                        <span className='text-[12px]'>2 days ago</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p className="text-gray-700 text-sm leading-relaxed">{review.comment}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className='py-10 border-b border-gray-200 flex flex-col gap-3'>
                         <h1 className="text-2xl font-bold text-gray-900 ">{service.reviews.length} Reviews</h1>
                         <h2 className="text-[16px] text-gray-700">
@@ -228,7 +273,11 @@ const ServiceCard = ({ service }) => {
                                 <ReviewCard key={index} review={review} />
                             ))}
                         </div>
-                        <div><button className='bg-gray-100 w-full py-3 rounded-[20px] font-semibold hover:bg-gray-200 cursor-pointer'>Show all {service.reviews.length} reviews </button></div>
+                        <div>
+                            <button
+                                onClick={() => setShowModal(true)}
+                                className='bg-gray-100 w-full py-3 rounded-[20px] font-semibold hover:bg-gray-200 cursor-pointer'  >Show all {service.reviews.length} reviews
+                            </button></div>
 
                     </div>
                     <div className="py-10 border-b border-gray-200 flex flex-col gap-3">
