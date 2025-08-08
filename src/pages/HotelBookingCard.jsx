@@ -7,8 +7,12 @@ const BookingCard = ({
   checkOut,
   onDateClick,
   guests,
-  onGuestsChange
+  onGuestsChange,
+  hotelId,
+  onBooking 
 }) => {
+  const [isBooking, setIsBooking] = useState(false);
+
   const formatDateDisplay = (date) => {
     if (!date) return 'Add date';
     return date.toLocaleDateString('en-US', {
@@ -28,6 +32,46 @@ const BookingCard = ({
   const cleaningFee = 50;
   const serviceFee = Math.round(subtotal * 0.14);
   const total = subtotal + cleaningFee + serviceFee;
+
+  const handleReserve = async () => {
+    if (!checkIn || !checkOut) {
+      alert('Please select check-in and check-out dates');
+      return;
+    }
+
+    if (nights <= 0) {
+      alert('Check-out date must be after check-in date');
+      return;
+    }
+
+    setIsBooking(true);
+
+    try {
+      const bookingData = {
+        hotelId,
+        checkIn: checkIn.toISOString(),
+        checkOut: checkOut.toISOString(),
+        guests,
+        pricePerNight,
+        nights,
+        subtotal,
+        cleaningFee,
+        serviceFee,
+        total
+      };
+
+      await onBooking(bookingData);
+      
+      // Show success message
+      alert(`Booking confirmed! Total: $${total}`);
+      
+    } catch (error) {
+      console.error('Booking failed:', error);
+      alert(error.message || 'Booking failed. Please try again.');
+    } finally {
+      setIsBooking(false);
+    }
+  };
 
   return (
     <div className="bg-white border border-gray-300 rounded-xl shadow-lg p-6 max-w-md mx-auto mt-8 relative z-40">
@@ -57,7 +101,6 @@ const BookingCard = ({
           </div>
         </div>
 
-
         <div className="border border-gray-300 rounded-lg p-3 relative">
           <label className="block text-xs font-semibold text-gray-900 mb-1">GUESTS</label>
           <select
@@ -72,8 +115,16 @@ const BookingCard = ({
           <Users className="absolute right-2 top-8 w-4 h-4 text-gray-400 pointer-events-none" />
         </div>
 
-        <button className="w-full bg-[#FF385C] text-white rounded-lg py-3 font-semibold hover:bg-[#E31C5A] transition-colors">
-          Reserve
+        <button 
+          className={`w-full text-white rounded-lg py-3 font-semibold transition-colors ${
+            isBooking 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-[#FF385C] hover:bg-[#E31C5A]'
+          }`}
+          onClick={handleReserve}
+          disabled={isBooking}
+        >
+          {isBooking ? 'Processing...' : 'Reserve'}
         </button>
 
         <p className="text-center text-gray-600 text-sm">You won't be charged yet</p>

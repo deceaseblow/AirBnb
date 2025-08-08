@@ -177,7 +177,7 @@ const ServiceCard = ({ service }) => {
                         <h1 className="text-2xl font-bold text-gray-900 mb-6">My portfolio</h1>
 
                         <div className="flex gap-2 h-[400px]">
-                            <div className="flex-[2] relative overflow-hidden rounded-2xl">
+                            <div className="flex-[2] relative overflow-hidden rounded-2xl z-10">
                                 <img
                                     src={service.images[0]}
                                     alt="Portfolio work 1"

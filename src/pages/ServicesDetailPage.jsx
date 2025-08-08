@@ -9,11 +9,15 @@ import MobileFooter from '../components/MobileFooter';
 
 const ServiceDetailPage = () => {
   const { id } = useParams();
-  const { findItemById, loading, error } = useAllData();
-  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser();
+  const { findItemById, error } = useAllData();
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist, addServiceBooking } = useUser();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState(null);
+  const [guests, setGuests] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const service = findItemById(parseInt(id));
 
@@ -32,6 +36,40 @@ const ServiceDetailPage = () => {
     } else {
       addToWishlist(serviceId)
         .catch(err => console.error('Error adding to wishlist:', err));
+    }
+  };
+  const openModal = () => {
+    setSelectedType(service.types[0] || null);
+    setGuests(1);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedType(null);
+  };
+  const handleReserve = async () => {
+    if (!selectedType) return alert("Please select a reservation type.");
+
+    setLoading(true);
+
+    try {
+      await addServiceBooking({
+        serviceId: service.id,
+        serviceName: service.name,
+        serviceImage: service.image || (service.images && service.images[0]),
+        typeName: selectedType.name,
+        typePrice: selectedType.price,
+        typeDuration: selectedType.duration,
+        guests,
+      });
+      alert("Reservation successful!");
+      closeModal();
+    } catch (err) {
+      alert("Error making reservation.");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,13 +119,13 @@ const ServiceDetailPage = () => {
                   src={service.image}
                   alt="Service"
                   className="w-full h-50 object-cover rounded-3xl"
-                />  
+                />
                 <img
                   src={service.host?.image ||
                     "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk="
                   }
                   alt="Host"
-                 className="w-16 h-16 rounded-full object-cover border-4 border-white absolute left-1/2 -translate-x-1/2 -bottom-8"
+                  className="w-16 h-16 rounded-full object-cover border-4 border-white absolute left-1/2 -translate-x-1/2 -bottom-8"
                   onError={(e) => {
                     console.log('Image failed to load, using fallback');
                     e.target.src = "https://media.istockphoto.com/id/1290743328/vector/faceless-man-abstract-silhouette-of-person-the-figure-of-man-without-a-face-front-view.jpg?s=612x612&w=0&k=20&c=Ys-4Co9NaWFFBDjmvDJABB2BPePxJwHugC8_G5u0rOk=";
@@ -133,9 +171,100 @@ const ServiceDetailPage = () => {
                   <p>Minimum ${service.types[0].price} to book</p>
                   <p className="text-red-600">Free Cancellation</p>
                 </div>
-                <button className="bg-pink-400 py-2 px-9 rounded-[35px] text-white text-[20px]">
+                <button
+                  onClick={openModal}
+                  className="bg-pink-400 py-2 px-9 rounded-[35px] text-white text-[20px]"
+                >
                   Reserve
                 </button>
+
+                {modalOpen && (
+                  <div
+                    className="fixed inset-0 flex items-center justify-center z-50 p-4"
+                  style={{ backgroundColor: 'rgba(77, 77, 77, 0.54)' }}
+                    onClick={closeModal} 
+                  >
+                    <div
+                      className="bg-white rounded-3xl max-w-lg w-full p-6 relative"
+                       style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)' }}
+                      onClick={(e) => e.stopPropagation()} // prevent modal close on content click
+                    >
+                      <button
+                        className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                        onClick={closeModal}
+                        aria-label="Close modal"
+                      >
+                        ✕
+                      </button>
+
+                      <h2 className="text-xl font-semibold mb-4">Choose a reservation type</h2>
+
+                      <div className="space-y-4 max-h-72 overflow-y-auto mb-6">
+                        {service.types.map((type) => (
+                          <label
+                            key={type.name}
+                            className={`flex items-center gap-4 p-3 border rounded-lg cursor-pointer
+                    ${selectedType?.name === type.name
+                                ? 'border-pink-500 bg-pink-50'
+                                : 'border-gray-300'
+                              }`}
+                          >
+                            <input
+                              type="radio"
+                              name="serviceType"
+                              checked={selectedType?.name === type.name}
+                              onChange={() => setSelectedType(type)}
+                              className="cursor-pointer"
+                            />
+                            <img
+                              src={type.image}
+                              alt={type.name}
+                              className="w-20 h-14 object-cover rounded-lg flex-shrink-0"
+                            />
+                            <div className="flex flex-col">
+                              <span className="font-semibold">{type.name}</span>
+                              <span className="text-gray-600 text-sm">{type.duration}</span>
+                              <span className="text-pink-600 font-semibold">${type.price}</span>
+                              <p className="text-gray-500 text-xs mt-1 line-clamp-2">{type.description}</p>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center justify-between mb-6">
+                        <label htmlFor="guests" className="font-medium text-gray-700">
+                          Guests
+                        </label>
+                        <input
+                          id="guests"
+                          type="number"
+                          min={1}
+                          max={20}
+                          value={guests}
+                          onChange={(e) => setGuests(Number(e.target.value))}
+                          className="w-16 text-center border border-gray-300 rounded-md"
+                        />
+                      </div>
+
+                      <div className="flex gap-4">
+                        <button
+                          onClick={closeModal}
+                          className="flex-1 py-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+                          disabled={loading}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleReserve}
+                          className="flex-1 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
+                          disabled={loading}
+                        >
+                          {loading ? "Reserving..." : "Reserve"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

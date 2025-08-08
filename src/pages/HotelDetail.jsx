@@ -104,6 +104,7 @@ const AboutThePlace = () => {
 
 const Amenities = ({ amenities }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const amenityIcons = {
         wifi: <Wifi size={20} />,
         kitchen: <Utensils size={20} />,
@@ -111,10 +112,11 @@ const Amenities = ({ amenities }) => {
         heating: <Zap size={20} />,
         balcony: <MapPin size={20} />,
         'smart tv': <Tv size={20} />,
+        tv: <Tv size={20} />, // Handle both "Smart TV" and "TV"
         parking: <Car size={20} />,
         'coffee maker': <Coffee size={20} />,
-        breakfast: <Coffee size={20} />,  // reuse Coffee icon for breakfast
-        pool: <Home size={20} />,          // example icon for pool
+        breakfast: <Coffee size={20} />,
+        pool: <Home size={20} />,
         // add more as needed
     };
 
@@ -130,18 +132,17 @@ const Amenities = ({ amenities }) => {
                 {displayAmenities.map((amenity, index) => {
                     const key = amenity.toLowerCase().trim();
                     return (
-                        <div key={index} className="flex items-center space-x-4 py-1">
+                        <div key={`amenity-${index}-${amenity}`} className="flex items-center space-x-4 py-1">
                             <span>{amenityIcons[key] || <Utensils size={20} />}</span>
                             <span>{amenity}</span>
                         </div>
                     );
                 })}
-
             </div>
 
             <button
                 onClick={handleShowAll}
-                className="mt-4  bg-gray-100 rounded-lg px-6 py-3 font-semibold hover:bg-gray-50 transition-colors"
+                className="mt-4 bg-gray-100 rounded-lg px-6 py-3 font-semibold hover:bg-gray-50 transition-colors"
             >
                 Show all amenities
             </button>
@@ -165,7 +166,7 @@ const Amenities = ({ amenities }) => {
                                     {displayAmenities.map((amenity, index) => {
                                         const key = amenity.toLowerCase().trim();
                                         return (
-                                            <div key={index} className="flex items-center space-x-3 py-2">
+                                            <div key={`modal-amenity-${index}-${amenity}`} className="flex items-center space-x-3 py-2">
                                                 <span>{amenityIcons[key] || <Utensils size={20} />}</span>
                                                 <span>{amenity}</span>
                                             </div>
@@ -177,7 +178,6 @@ const Amenities = ({ amenities }) => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };
@@ -273,6 +273,7 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
         isLoggedIn,
         addToWishlist,
         removeFromWishlist,
+        addToBookings // Add this from context
     } = useUser();
 
     const [isSticky, setIsSticky] = useState(false);
@@ -305,6 +306,27 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
     const handleGuestsChange = (newGuests) => {
         setGuests(newGuests);
     };
+
+    const handleBooking = async (bookingData) => {
+        if (!isLoggedIn) {
+            alert('Please log in to make a booking.');
+            return;
+        }
+
+        try {
+            const booking = await addToBookings(bookingData);
+            console.log('Booking successful:', booking);
+
+            // Optionally reset the form
+            // setCheckIn(null);
+            // setCheckOut(null);
+            // setGuests(1);
+
+        } catch (error) {
+            throw error; // Let BookingCard handle the error display
+        }
+    };
+
     const toggleFavorite = (hotelId) => {
         console.log('Toggle favorite called for hotelId:', hotelId);
         console.log('isLoggedIn:', isLoggedIn);
@@ -452,12 +474,14 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                         <div className="w-full lg:w-[400px] shrink-0">
                             <div className="sticky top-24">
                                 <BookingCard
-                                    pricePerNight={120}
+                                    pricePerNight={hotel?.price}
                                     checkIn={checkIn}
                                     checkOut={checkOut}
                                     onDateClick={handleDateClick}
                                     guests={guests}
                                     onGuestsChange={handleGuestsChange}
+                                    hotelId={hotel?.id} // Pass hotel ID
+                                    onBooking={handleBooking} // Pass booking handler
                                 />
                             </div>
                         </div>

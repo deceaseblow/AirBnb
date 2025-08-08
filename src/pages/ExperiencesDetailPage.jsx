@@ -371,9 +371,10 @@ function ExperiencesDetailPage() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>  
                                 <div className='sticky top-30'>
-                                    <BookingCard />
+                                    <BookingCard experienceId={parseInt(id)} />
+
                                 </div>
                             </div>
                         </div>
