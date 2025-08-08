@@ -12,10 +12,10 @@ import BookingCard from './HotelBookingCard';
 import CalendarComponent from './HotelCalendar';
 import { useUser } from '../contexts/UsersContext';
 import AboutHost from './AboutHost';
-import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io'; 
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import MobileFooter from '../components/MobileFooter';
 
-const HotelFeatures = ({ hotel }) => {
+const HotelFeatures = () => {
     const features = [
         {
             icon: <Shield size={24} />,
@@ -126,8 +126,6 @@ const Amenities = ({ amenities }) => {
     return (
         <div id="amenities" className="py-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900 mb-2">What this place offers</h2>
-
-            {/* Reduced gap from 4 to 2 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-2">
                 {displayAmenities.map((amenity, index) => {
                     const key = amenity.toLowerCase().trim();
@@ -479,9 +477,9 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
             <div className='bg-[#fafafa]'><div className='max-w-6xl mx-auto'>
                 <Footer />
             </div>
-            <div className="block md:hidden">
-                <MobileFooter />
-            </div>
+                <div className="block md:hidden">
+                    <MobileFooter />
+                </div>
             </div>
         </div>
     );

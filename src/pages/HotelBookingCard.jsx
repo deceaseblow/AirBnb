@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Users } from 'lucide-react';
 
-const BookingCard = ({ 
-  pricePerNight = 120, 
-  checkIn, 
-  checkOut, 
+const BookingCard = ({
+  pricePerNight = 120,
+  checkIn,
+  checkOut,
   onDateClick,
   guests,
   onGuestsChange
 }) => {
   const formatDateDisplay = (date) => {
     if (!date) return 'Add date';
-    return date.toLocaleDateString('en-US', { 
-      month: 'numeric', 
+    return date.toLocaleDateString('en-US', {
+      month: 'numeric',
       day: 'numeric',
       year: 'numeric'
     });
@@ -39,23 +39,23 @@ const BookingCard = ({
       </div>
 
       <div className="space-y-4">
-       <div
-  className="grid grid-cols-2 gap-0 border border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:border-black transition-colors"
-  onClick={onDateClick}
->
-  <div className="border-r border-gray-300 p-3">
-    <p className="text-[10px] font-semibold uppercase text-gray-500">Check-in</p>
-    <p className="text-sm font-medium">
-      {checkIn ? new Date(checkIn).toLocaleDateString() : 'Add date'}
-    </p>
-  </div>
-  <div className="p-3">
-    <p className="text-[10px] font-semibold uppercase text-gray-500">Check-out</p>
-    <p className="text-sm font-medium">
-      {checkOut ? new Date(checkOut).toLocaleDateString() : 'Add date'}
-    </p>
-  </div>
-</div>
+        <div
+          className="grid grid-cols-2 gap-0 border border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:border-black transition-colors"
+          onClick={onDateClick}
+        >
+          <div className="border-r border-gray-300 p-3">
+            <p className="text-[10px] font-semibold uppercase text-gray-500">Check-in</p>
+            <p className="text-sm font-medium">
+              {checkIn ? new Date(checkIn).toLocaleDateString() : 'Add date'}
+            </p>
+          </div>
+          <div className="p-3">
+            <p className="text-[10px] font-semibold uppercase text-gray-500">Check-out</p>
+            <p className="text-sm font-medium">
+              {checkOut ? new Date(checkOut).toLocaleDateString() : 'Add date'}
+            </p>
+          </div>
+        </div>
 
 
         <div className="border border-gray-300 rounded-lg p-3 relative">

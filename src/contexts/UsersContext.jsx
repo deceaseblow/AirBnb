@@ -50,7 +50,7 @@
       setCurrentUser(null);
       localStorage.removeItem('currentUser');
     } finally {
-      setLoading(false); // ✅ Only set to false after everything is ready
+      setLoading(false); 
     }
   };
 

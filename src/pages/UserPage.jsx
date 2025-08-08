@@ -10,7 +10,7 @@ import HomeIcon1 from "../components/icons/HomeIcon"
 import BecomeHostButton from '../components/BecomeAHostButton';
 function UserPage() {
   const [activeTab, setActiveTab] = useState('about');
-  const [showUpdateModal, setShowUpdateModal] = useState(false); 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const { currentUser, isLoggedIn, logout, updateUserData, deleteUserData } = useUser();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ function UserPage() {
       navigate('/');
     }
   };
-   const handleLogout = () => {
+  const handleLogout = () => {
     logout();
   };
 
@@ -118,18 +118,19 @@ function UserPage() {
                 Update Profile
               </button>
               <button
-                onClick={handleDeleteAccount}
-                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700"
-              >
-                Delete Account
-              </button>
-                <button
                 onClick={handleLogout}
                 className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
               >
                 Log out
               </button>
-              
+              <button
+                onClick={handleDeleteAccount}
+                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700"
+              >
+                Delete Account
+              </button>
+
+
             </div>
           </div>
         </div>
@@ -174,6 +175,12 @@ function UserPage() {
                 className="w-full bg-gray-100 font-semibold py-3 rounded-full hover:bg-gray-200 transition-colors"
               >
                 Update Profile
+              </button>   
+              <button
+                onClick={handleLogout}
+                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
+              >
+                Log out
               </button>
               <button
                 onClick={handleDeleteAccount}
@@ -181,12 +188,7 @@ function UserPage() {
               >
                 Delete Account
               </button>
-                <button
-                onClick={handleLogout}
-                className="w-full bg-pink-600 text-white py-3 rounded-full hover:bg-pink-700 transition-colors"
-              >
-                Log out
-              </button>
+           
             </div>
           </div>
 
@@ -196,7 +198,7 @@ function UserPage() {
                 <div className='max-w-6xl mx-auto px-10'>
                   <h1 className='text-[40px] font-semibold mb-10'>About Me</h1>
                   <div className="hidden md:flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-6 mb-6 lg:mb-8">
-                  <div className="w-full lg:w-[400px] h-full bg-white rounded-2xl shadow-lg py-5 px-20 flex flex-col items-center justify-center">
+                    <div className="w-full lg:w-[400px] h-full bg-white rounded-2xl shadow-lg py-5 px-20 flex flex-col items-center justify-center">
 
                       <img
                         src={currentUser.profile_picture}

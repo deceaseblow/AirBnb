@@ -13,6 +13,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 edilmeliler : 
-
+1) db json un ervice hostlarinin sekilleri deyisilecek
 2) Become a host next button to make you host now, adding host array to add objects into
-3) bookings ,, eh
+3) bookings 

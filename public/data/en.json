@@ -38,6 +38,7 @@
       ],
       "host_rating": 4.9,
       "total_reviews": 47,
+      "bookings": [],
       "wishlist": [
         202,
         401,
@@ -80,14 +81,7 @@
       ],
       "host_rating": 4.8,
       "total_reviews": 65,
-      "listings": [
-        201,
-        202
-      ],
-      "bookings": [
-        4002,
-        4120
-      ],
+      "bookings": [],
       "wishlist": [
         101,
         301
@@ -130,16 +124,424 @@
       ],
       "host_rating": 0,
       "total_reviews": 0,
-      "listings": [],
-      "bookings": [
-        5001,
-        5002,
-        5005
-      ],
+      "bookings": [],
       "wishlist": [
         402,
         102,
         301
+      ]
+    },
+    {
+      "id": 4,
+      "role": "user",
+      "first_name": "Marcus",
+      "last_name": "Rodriguez",
+      "username": "marcus_travels",
+      "email": "marcus.rodriguez@example.com",
+      "password": "hashed_pw_4",
+      "date_of_birth": "1988-11-22",
+      "profile_picture": "/images/users/marcus.jpg",
+      "is_superhost": true,
+      "joined_on": "2020-02-14",
+      "about_me": "Digital nomad and photographer from Barcelona. Love connecting with locals and discovering hidden gems in every city.",
+      "interests": [
+        "photography",
+        "cooking",
+        "hiking",
+        "street art"
+      ],
+      "languages_spoken": [
+        "Spanish",
+        "English",
+        "French",
+        "Portuguese"
+      ],
+      "lives_in": "Barcelona, Spain",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": true
+      },
+      "places_visited": [
+        "Lisbon, Portugal",
+        "Mexico City, Mexico",
+        "Buenos Aires, Argentina",
+        "Paris, France",
+        "Marrakech, Morocco"
+      ],
+      "host_rating": 4.9,
+      "total_reviews": 47,
+      "listings": [
+        201,
+        202
+      ],
+      "bookings": [],
+      "wishlist": [
+        103,
+        301,
+        401,
+        501
+      ]
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "first_name": "Priya",
+      "last_name": "Sharma",
+      "username": "priya_explorer",
+      "email": "priya.sharma@example.com",
+      "password": "hashed_pw_5",
+      "date_of_birth": "1992-07-08",
+      "profile_picture": "/images/users/priya.jpg",
+      "is_superhost": false,
+      "joined_on": "2022-01-10",
+      "about_me": "Software engineer from Mumbai who loves exploring different cultures through food and festivals.",
+      "interests": [
+        "technology",
+        "food tours",
+        "festivals",
+        "yoga"
+      ],
+      "languages_spoken": [
+        "Hindi",
+        "English",
+        "Marathi"
+      ],
+      "lives_in": "Mumbai, India",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": false
+      },
+      "places_visited": [
+        "Goa, India",
+        "Dubai, UAE",
+        "Singapore",
+        "Bali, Indonesia"
+      ],
+      "host_rating": 0,
+      "total_reviews": 0,
+      "listings": [],
+      "bookings": [
+        5008,
+        5009
+      ],
+      "wishlist": [
+        102,
+        203,
+        304,
+        402
+      ]
+    },
+    {
+      "id": 6,
+      "role": "user",
+      "first_name": "Erik",
+      "last_name": "Nielsen",
+      "username": "erik_nordic",
+      "email": "erik.nielsen@example.com",
+      "password": "hashed_pw_6",
+      "date_of_birth": "1985-04-15",
+      "profile_picture": "/images/users/erik.jpg",
+      "is_superhost": true,
+      "joined_on": "2019-08-03",
+      "about_me": "Architect and outdoor enthusiast from Copenhagen. I design sustainable buildings and love sharing my knowledge about Nordic design.",
+      "interests": [
+        "architecture",
+        "sustainability",
+        "cycling",
+        "Nordic design"
+      ],
+      "languages_spoken": [
+        "Danish",
+        "English",
+        "Swedish",
+        "German"
+      ],
+      "lives_in": "Copenhagen, Denmark",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": true
+      },
+      "places_visited": [
+        "Stockholm, Sweden",
+        "Oslo, Norway",
+        "Helsinki, Finland",
+        "Reykjavik, Iceland",
+        "Amsterdam, Netherlands"
+      ],
+      "host_rating": 4.8,
+      "total_reviews": 32,
+      "listings": [
+        301,
+        302,
+        303
+      ],
+      "bookings": [
+        5010,
+        5011
+      ],
+      "wishlist": [
+        104,
+        205,
+        401
+      ]
+    },
+    {
+      "id": 7,
+      "role": "user",
+      "first_name": "Isabella",
+      "last_name": "Costa",
+      "username": "bella_rio",
+      "email": "isabella.costa@example.com",
+      "password": "hashed_pw_7",
+      "date_of_birth": "1990-12-03",
+      "profile_picture": "/images/users/isabella.jpg",
+      "is_superhost": false,
+      "joined_on": "2021-11-28",
+      "about_me": "Marine biologist and dance instructor from Rio. Passionate about ocean conservation and Brazilian culture.",
+      "interests": [
+        "marine biology",
+        "dancing",
+        "environmental conservation",
+        "beach activities"
+      ],
+      "languages_spoken": [
+        "Portuguese",
+        "English",
+        "Spanish"
+      ],
+      "lives_in": "Rio de Janeiro, Brazil",
+      "verified": {
+        "email": true,
+        "phone": false,
+        "identity": true
+      },
+      "places_visited": [
+        "São Paulo, Brazil",
+        "Buenos Aires, Argentina",
+        "Cartagena, Colombia",
+        "Lisbon, Portugal"
+      ],
+      "host_rating": 0,
+      "total_reviews": 0,
+      "listings": [],
+      "bookings": [
+        5012,
+        5013,
+        5014
+      ],
+      "wishlist": [
+        201,
+        302,
+        403,
+        502
+      ]
+    },
+    {
+      "id": 8,
+      "role": "user",
+      "first_name": "Ahmed",
+      "last_name": "Hassan",
+      "username": "ahmed_cairo",
+      "email": "ahmed.hassan@example.com",
+      "password": "hashed_pw_8",
+      "date_of_birth": "1987-09-17",
+      "profile_picture": "/images/users/ahmed.jpg",
+      "is_superhost": true,
+      "joined_on": "2020-05-12",
+      "about_me": "History professor and cultural guide from Cairo. I love sharing the rich history of Egypt and connecting travelers with authentic experiences.",
+      "interests": [
+        "history",
+        "archaeology",
+        "cultural tours",
+        "storytelling"
+      ],
+      "languages_spoken": [
+        "Arabic",
+        "English",
+        "French"
+      ],
+      "lives_in": "Cairo, Egypt",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": true
+      },
+      "places_visited": [
+        "Alexandria, Egypt",
+        "Istanbul, Turkey",
+        "Jerusalem, Israel",
+        "Athens, Greece",
+        "Rome, Italy"
+      ],
+      "host_rating": 4.95,
+      "total_reviews": 73,
+      "listings": [
+        401,
+        402,
+        403
+      ],
+      "bookings": [
+        5015,
+        5016
+      ],
+      "wishlist": [
+        105,
+        204,
+        306
+      ]
+    },
+    {
+      "id": 9,
+      "role": "user",
+      "first_name": "Emily",
+      "last_name": "Thompson",
+      "username": "emily_nomad",
+      "email": "emily.thompson@example.com",
+      "password": "hashed_pw_9",
+      "date_of_birth": "1993-01-25",
+      "profile_picture": "/images/users/emily.jpg",
+      "is_superhost": false,
+      "joined_on": "2022-03-07",
+      "about_me": "Freelance writer and coffee enthusiast from Melbourne. Always looking for the perfect café and inspiring stories to tell.",
+      "interests": [
+        "writing",
+        "coffee culture",
+        "literature",
+        "local markets"
+      ],
+      "languages_spoken": [
+        "English"
+      ],
+      "lives_in": "Melbourne, Australia",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": false
+      },
+      "places_visited": [
+        "Sydney, Australia",
+        "Auckland, New Zealand",
+        "Ho Chi Minh City, Vietnam",
+        "Chiang Mai, Thailand"
+      ],
+      "host_rating": 0,
+      "total_reviews": 0,
+      "listings": [],
+      "bookings": [
+        5017,
+        5018,
+        5019
+      ],
+      "wishlist": [
+        103,
+        202,
+        305,
+        404
+      ]
+    },
+    {
+      "id": 10,
+      "role": "user",
+      "first_name": "Jean-Luc",
+      "last_name": "Dubois",
+      "username": "jeanluc_paris",
+      "email": "jeanluc.dubois@example.com",
+      "password": "hashed_pw_10",
+      "date_of_birth": "1982-06-12",
+      "profile_picture": "/images/users/jeanluc.jpg",
+      "is_superhost": true,
+      "joined_on": "2019-04-20",
+      "about_me": "Chef and culinary instructor from Paris. I believe the best way to understand a culture is through its cuisine.",
+      "interests": [
+        "cooking",
+        "wine tasting",
+        "culinary history",
+        "farmers markets"
+      ],
+      "languages_spoken": [
+        "French",
+        "English",
+        "Italian"
+      ],
+      "lives_in": "Paris, France",
+      "verified": {
+        "email": true,
+        "phone": true,
+        "identity": true
+      },
+      "places_visited": [
+        "Lyon, France",
+        "Rome, Italy",
+        "Barcelona, Spain",
+        "Brussels, Belgium",
+        "London, UK"
+      ],
+      "host_rating": 4.92,
+      "total_reviews": 56,
+      "listings": [
+        501,
+        502
+      ],
+      "bookings": [
+        5020,
+        5021
+      ],
+      "wishlist": [
+        106,
+        203,
+        304,
+        405
+      ]
+    },
+    {
+      "id": 11,
+      "role": "user",
+      "first_name": "Yuki",
+      "last_name": "Tanaka",
+      "username": "yuki_kyoto",
+      "email": "yuki.tanaka@example.com",
+      "password": "hashed_pw_11",
+      "date_of_birth": "1996-08-30",
+      "profile_picture": "/images/users/yuki.jpg",
+      "is_superhost": false,
+      "joined_on": "2023-02-15",
+      "about_me": "Traditional arts student from Kyoto. I practice calligraphy and tea ceremony, and love sharing Japanese traditions with visitors.",
+      "interests": [
+        "traditional arts",
+        "calligraphy",
+        "tea ceremony",
+        "meditation"
+      ],
+      "languages_spoken": [
+        "Japanese",
+        "English"
+      ],
+      "lives_in": "Kyoto, Japan",
+      "verified": {
+        "email": true,
+        "phone": false,
+        "identity": true
+      },
+      "places_visited": [
+        "Tokyo, Japan",
+        "Nara, Japan",
+        "Seoul, South Korea"
+      ],
+      "host_rating": 0,
+      "total_reviews": 0,
+      "listings": [],
+      "bookings": [
+        5022,
+        5023
+      ],
+      "wishlist": [
+        107,
+        204,
+        303,
+        406
       ]
     }
   ],

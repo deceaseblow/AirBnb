@@ -8,6 +8,7 @@ import MapComponent from '../components/MapComponent';
 import { MdOpenInFull } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import MobileFooter from '../components/MobileFooter';
+import { useUser } from '../contexts/UsersContext';
 import {
   getAllParisData,
   getAllLondonData,
@@ -42,6 +43,9 @@ function SearchPage() {
   const [error, setError] = useState('');
   const [mapFullScreen, setMapFullScreen] = useState(false);
 
+  // Get user context for wishlist functionality
+  const { currentUser, isLoggedIn, addToWishlist, removeFromWishlist } = useUser();
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -50,7 +54,7 @@ function SearchPage() {
 
         if (searched === 'home') {
           const city = (where || '').trim().toLowerCase();
-          switch (city) { 
+          switch (city) {
             case 'france':
               data = await getAllParisData();
               break;
@@ -123,13 +127,49 @@ function SearchPage() {
     fetchData();
   }, [searched, where, typeOf]);
 
+  const toggleFavorite = (id) => {
+    if (!isLoggedIn) {
+      alert('Please log in to add items to your wishlist');
+      return;
+    }
+
+    if (currentUser?.wishlist?.includes(id)) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist(id);
+    }
+  };
+
   const renderCard = (item) => {
+    const isFavorite = currentUser?.wishlist?.includes(item.id) || false;
+
     if (searched === 'home') {
-      return <HotelCard key={item.id} hotel={item} isFavorite={false} toggleFavorite={() => { }} />;
+      return (
+        <HotelCard
+          key={item.id}
+          hotel={item}
+          isFavorite={isFavorite}
+          toggleFavorite={() => toggleFavorite(item.id)}
+        />
+      );
     } else if (searched === 'experiences') {
-      return <ExperienceCard key={item.id} experience={item} isFavorite={false} toggleFavorite={() => { }} />;
+      return (
+        <ExperienceCard
+          key={item.id}
+          experience={item}
+          isFavorite={isFavorite}
+          toggleFavorite={() => toggleFavorite(item.id)}
+        />
+      );
     } else if (searched === 'services') {
-      return <ServiceCard key={item.id} service={item} isFavorite={false} toggleFavorite={() => { }} />;
+      return (
+        <ServiceCard
+          key={item.id}
+          service={item}
+          isFavorite={isFavorite}
+          toggleFavorite={() => toggleFavorite(item.id)}
+        />
+      );
     } else {
       return null;
     }
@@ -138,9 +178,9 @@ function SearchPage() {
   if (loading) return <div className="p-4">Loading...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
-return (
-  <div className="relative">
-    <NavigationBar forceScrolled={true} />
+  return (
+    <div className="relative">
+      <NavigationBar forceScrolled={true} />
 
       <div className="p-6 bg-[#fff] pb-20">
         <div className="px-4 md:px-10">
@@ -165,8 +205,6 @@ return (
                 />
               </div>
             )}
-
-            {/* Sticky desktop map */}
             <div className={`${mapFullScreen ? 'w-full h-[85vh]' : 'w-2/5 h-[600px]'} relative rounded-xl overflow-hidden shadow-lg z-10`}>
               <div className="sticky top-20 h-full">
                 <button
@@ -179,8 +217,6 @@ return (
               </div>
             </div>
           </div>
-
-          {/* Mobile layout */}
           <div className="md:hidden">
             {mapFullScreen ? (
               <div className="w-full h-[85vh] relative rounded-xl overflow-hidden shadow-lg z-10">
@@ -215,39 +251,39 @@ return (
           </div>
         </div>
       </div>
-   <div className="md:hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-[9999]">
-  <button
-    onClick={() => setMapFullScreen(!mapFullScreen)}
-    className="bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-full shadow-2xl transition-all duration-200 flex items-center gap-2 font-medium"
-    style={{ zIndex: 9999 }}
-  >
-    {mapFullScreen ? (
-      <>
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-        </svg>
-        Show Cards
-      </>
-    ) : (
-      <>
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-        </svg>
-        Show Map
-      </>
-    )}
-  </button>
-</div>
 
-    <div className='bg-[#fafafa] lg:px-30'>
-      <Footer />
-    </div>
+      <div className="md:hidden fixed bottom-20 left-1/2 -translate-x-1/2 z-[9999]">
+        <button
+          onClick={() => setMapFullScreen(!mapFullScreen)}
+          className="bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-full shadow-2xl transition-all duration-200 flex items-center gap-2 font-medium"
+          style={{ zIndex: 9999 }}
+        >
+          {mapFullScreen ? (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              Show Cards
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              </svg>
+              Show Map
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className='bg-[#fafafa] lg:px-30'>
+        <Footer />
+      </div>
       <div className="block md:hidden">
         <MobileFooter />
       </div>
-  </div>
-);
-
+    </div>
+  );
 }
 
-export default SearchPage;
+export default SearchPage;  

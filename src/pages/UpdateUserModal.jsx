@@ -50,7 +50,7 @@ const UpdateUserModal = ({ user, onClose, onUpdate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center px-10">
       <div className="bg-white w-full max-w-2xl p-8 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Update Profile</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
