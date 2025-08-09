@@ -108,7 +108,7 @@ function WishlistPage() {
     <div>
     <div className=' hidden md:block'>  
       <NavigationBar hideCenter /></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20 lg:px-8 min-h-[400px] block">
         <div>
           <h1 className="text-[28px] sm:text-[32px] md:text-[36px] font-semibold py-4">Your Wishlist</h1>
 
