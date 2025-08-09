@@ -48,7 +48,6 @@ function WishlistPage() {
 
   const wishlistItems = currentUser?.wishlist?.map(id => findItemById(id)).filter(Boolean)
 
-  // Toggle favorite adds/removes item ID from user's wishlist
   const toggleFavorite = (id) => {
     if (!isLoggedIn) return
     if (currentUser.wishlist.includes(id)) {

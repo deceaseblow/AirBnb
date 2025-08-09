@@ -187,7 +187,7 @@ const ServiceDetailPage = () => {
                     <div
                       className="bg-white rounded-3xl max-w-lg w-full p-6 relative"
                        style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)' }}
-                      onClick={(e) => e.stopPropagation()} // prevent modal close on content click
+                      onClick={(e) => e.stopPropagation()} 
                     >
                       <button
                         className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"

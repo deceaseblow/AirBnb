@@ -314,7 +314,6 @@ export const UserProvider = ({ children }) => {
     }
 
     try {
-      // Filter out the booking with the given bookingId (experience or service)
       const updatedBookings = (currentUser.bookings || []).filter(
         (booking) => booking.id !== bookingId
       );

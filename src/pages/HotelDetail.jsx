@@ -117,7 +117,6 @@ const Amenities = ({ amenities }) => {
         'coffee maker': <Coffee size={20} />,
         breakfast: <Coffee size={20} />,
         pool: <Home size={20} />,
-        // add more as needed
     };
 
     const displayAmenities = amenities || ['Wifi', 'Kitchen', 'Washer', 'Heating', 'Balcony', 'Smart TV'];
@@ -316,14 +315,8 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
         try {
             const booking = await addToBookings(bookingData);
             console.log('Booking successful:', booking);
-
-            // Optionally reset the form
-            // setCheckIn(null);
-            // setCheckOut(null);
-            // setGuests(1);
-
         } catch (error) {
-            throw error; // Let BookingCard handle the error display
+            throw error; 
         }
     };
 
@@ -470,7 +463,6 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                             />
                         </div>
 
-                        {/* Right column - Booking Card */}
                         <div className="w-full lg:w-[400px] shrink-0">
                             <div className="sticky top-24">
                                 <BookingCard
@@ -480,8 +472,8 @@ const HotelDetail = ({ hotelId, findItemById, loading, error, onRetry, host }) =
                                     onDateClick={handleDateClick}
                                     guests={guests}
                                     onGuestsChange={handleGuestsChange}
-                                    hotelId={hotel?.id} // Pass hotel ID
-                                    onBooking={handleBooking} // Pass booking handler
+                                    hotelId={hotel?.id} 
+                                    onBooking={handleBooking} 
                                 />
                             </div>
                         </div>

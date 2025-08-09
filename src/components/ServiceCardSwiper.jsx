@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ServiceCard from './ServiceCard';
-import { useUser } from '../contexts/UsersContext'; // ← use the same context as HotelCardSwiper
+import { useUser } from '../contexts/UsersContext'; 
 
 function ServiceCardSwiper({ services, title }) {
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -25,12 +25,9 @@ const HotelCalendar = ({ onDateSelect, selectedCheckIn, selectedCheckOut }) => {
 
     const days = [];
 
-    // Add empty cells for days before the first day of the month
     for (let i = 0; i < firstDayWeekday; i++) {
       days.push(null);
     }
-
-    // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
@@ -47,16 +44,13 @@ const HotelCalendar = ({ onDateSelect, selectedCheckIn, selectedCheckOut }) => {
     if (date < today) return; // Disable past dates
 
     if (!checkInDate || (checkInDate && checkOutDate)) {
-      // Set check-in date
       setCheckInDate(date);
       setCheckOutDate(null);
     } else if (checkInDate && !checkOutDate) {
-      // Set check-out date
       if (date > checkInDate) {
         setCheckOutDate(date);
         onDateSelect(checkInDate, date);
       } else {
-        // If selected date is before check-in, reset and set as new check-in
         setCheckInDate(date);
         setCheckOutDate(null);
       }
