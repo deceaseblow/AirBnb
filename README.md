@@ -1,5 +1,5 @@
-#Before visiting on the website:
-run this link https://airbnbdata.onrender.com/api/ to make th data shown, onrender keeps refreshing.
+# Before visiting on the website:
+run this link https://airbnbdata.onrender.com/api/ to make the data shown, since onrender keeps refreshing.
 
 React tools used in the project : 
 hooks, contexts, routes and etc.
