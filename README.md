@@ -10,3 +10,9 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+Before clicking on the website run this link https://airbnbdata.onrender.com/api/ to make th data shown, onrender keeps refreshing.
+
+React tools used in the project : 
+hooks, contexts, routes and etc.
+users system, booking and adding to wishlist services, and a responsive same designated site.
