@@ -38,7 +38,27 @@ const ImageGallery = ({ images, hotelName, hotel, isFavorite, toggleFavorite }) 
   return (
     <>
       <div id="photos" className="relative w-full">
-        <div className="grid grid-cols-4 gap-2 h-80 md:h-96 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-2 gap-2 h-80 rounded-xl overflow-hidden md:hidden">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="relative overflow-hidden">
+              <img
+                src={imageArray[i] || imageArray[0]}
+                alt={`Hotel view ${i + 1}`}
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => setShowModal(true)}
+              />
+              {i === 4 && (
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="absolute bottom-4 right-4 bg-white border border-gray-300 rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm z-10"
+                >
+                  Show all photos
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="hidden md:grid grid-cols-4 gap-2 h-96 rounded-xl overflow-hidden">
           <div className="col-span-2 row-span-2 relative overflow-hidden">
             <img
               src={imageArray[0]}
