@@ -140,24 +140,26 @@ const GetawaysInspiration = () => {
       </h1>
 
       <div className="border-b border-gray-200 mb-8">
-        <nav className="flex space-x-8">
+        <nav className="flex flex-col md:flex-row space-x-8 items-start">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
-              className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                activeTab === tab
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className={` text-[16px] md:text-[18px] relative font-medium text-sm text-gray-500 transition-colors pb-2
+    ${activeTab === tab ? 'text-black' : 'hover:text-gray-700'}`}
             >
               {tab}
+              <span
+                className={`absolute left-0 bottom-0 h-[2px] bg-black transition-all duration-300
+      ${activeTab === tab ? 'w-full' : 'w-0 group-hover:w-full'}`}
+              ></span>
             </button>
+
           ))}
         </nav>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-x-6 gap-y-4">
+      <div className="flex flex-wrap gap-x-6 gap-y-4">
         {itemsToDisplay.map((item, index) => (
           <div key={index} className="group cursor-pointer">
             <div className="text-sm font-medium text-gray-900 group-hover:underline">
@@ -170,9 +172,9 @@ const GetawaysInspiration = () => {
             )}
           </div>
         ))}
-        
+
         {shouldShowToggle && (
-          <div 
+          <div
             className="flex items-center cursor-pointer group"
             onClick={handleToggleShowMore}
           >
