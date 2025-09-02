@@ -32,7 +32,7 @@ function HotelCard({ hotel, isFavorite, toggleFavorite }) {
           />
         </button>
         
-        <div className="absolute top-3 left-3 bg-white/90 text-black text-xs px-2 py-1 rounded-full font-medium font-sans">
+        <div className="absolute top-3 left-3 bg-white/90 text-black text-[11px] md:text-[13px] px-2 py-1 rounded-full font-medium font-sans">
           Guest favorite
         </div>
       </div>

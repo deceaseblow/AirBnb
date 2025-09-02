@@ -145,7 +145,7 @@ const GetawaysInspiration = () => {
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
-              className={` text-[16px] md:text-[18px] relative font-medium text-sm text-gray-500 transition-colors pb-2
+              className={` text-[16px] md:text-[18px] relative font-medium text-sm text-gray-500 transition-colors pb-2 cursor-pointer
     ${activeTab === tab ? 'text-black' : 'hover:text-gray-700'}`}
             >
               {tab}

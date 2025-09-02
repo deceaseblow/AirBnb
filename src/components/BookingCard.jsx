@@ -133,7 +133,7 @@ const BookingCard = ({ experienceId, pricePerGuest =74}) => {
         >
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-6 relative">
             <h2 className="text-xl font-semibold mb-4">Select a date and time</h2>
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3 mb-2">
               {availabilityData.map((slot, idx) => {
                 const id = slot.date + " " + slot.time;
                 const isSelected = id === selectedSlotId;
@@ -142,7 +142,7 @@ const BookingCard = ({ experienceId, pricePerGuest =74}) => {
                   <div
                     key={idx}
                     onClick={() => handleSlotSelect(slot)}
-                    className={`cursor-pointer border rounded-xl p-4 flex justify-between items-center
+                    className={`cursor-pointer border rounded-xl p-3 flex justify-between items-center
                       ${isSelected ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-500"}
                     `}
                   >

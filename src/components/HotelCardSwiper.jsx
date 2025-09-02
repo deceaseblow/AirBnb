@@ -62,7 +62,7 @@ function HotelCardSwiper({ hotels, title }) {
     <div>
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center'>
-          <h1 className="text-xl font-sans font-semibold">{title}</h1>
+          <h1 className="text-[16px] md:text-[25px] font-sans font-semibold">{title}</h1>
           <ChevronRight className='w-4 pt-1 ml-1' />
         </div>
 

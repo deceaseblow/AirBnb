@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Search, Heart, MessageSquare, User } from 'lucide-react';
 import { FaAirbnb } from 'react-icons/fa';
 import { useUser } from '../contexts/UsersContext';
@@ -21,7 +21,7 @@ function MobileFooter() {
         <div className="flex justify-around items-center h-16 text-xs">
           <button
             onClick={() => navigate('/home')}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center cursor-pointer"
           >
             <Search className={`h-5 w-5 ${isActive('/home') ? 'text-rose-500' : 'text-gray-500'}`} />
             <span className={isActive('/home') ? 'text-rose-500 font-semibold' : 'text-gray-500'}>Explore</span>
@@ -29,28 +29,28 @@ function MobileFooter() {
 
           {isLoggedIn ? (
             <>
-              <button onClick={() => navigate('/wishlist')} className="flex flex-col items-center">
+              <button onClick={() => navigate('/wishlist')} className="flex flex-col items-center cursor-pointer">
                 <Heart className={`h-5 w-5 ${isActive('/wishlist') ? 'text-rose-500' : 'text-gray-500'}`} />
                 <span className={isActive('/wishlist') ? 'text-rose-500 font-semibold' : 'text-gray-500'}>Wishlists</span>
               </button>
 
-              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center">
+              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center cursor-pointer ">
                 <FaAirbnb className={`h-5 w-5 ${isActive('/users/profile') ? 'text-rose-500' : 'text-gray-500'}`} />
                 <span className={isActive('/users/profile') ? 'text-rose-500 font-semibold' : 'text-gray-500'}>Trips</span>
               </button>
 
-              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center">
+              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center cursor-pointer">
                 <MessageSquare className={`h-5 w-5 ${isActive('/users/profile') ? 'text-rose-500' : 'text-gray-500'}`} />
                 <span className={isActive('/users/profile') ? 'text-rose-500 font-semibold' : 'text-gray-500'}>Messages</span>
               </button>
 
-              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center">
+              <button onClick={() => navigate('/users/profile')} className="flex flex-col items-center cursor-pointer ">
                 <User className={`h-5 w-5 ${isActive('/users/profile') ? 'text-rose-500' : 'text-gray-500'}`} />
                 <span className={isActive('/users/profile') ? 'text-rose-500 font-semibold' : 'text-gray-500'}>Profile</span>
               </button>
             </>
           ) : (
-            <button onClick={handleLoginClick} className="flex flex-col items-center">
+            <button onClick={handleLoginClick} className="flex flex-col items-center cursor-pointer">
               <User className="h-5 w-5 text-gray-500" />
               <span className="text-gray-500">Log In</span>
             </button>

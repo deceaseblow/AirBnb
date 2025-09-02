@@ -254,7 +254,7 @@ function ExperiencesDetailPage() {
                                 </div>
                                 <div className='flex flex-col gap-5 pb-4'>
                                     <h1 className="text-[28px] font-semibold">Meet the Host</h1>
-                                    <div className='flex gap-10'>
+                                    <div className='flex flex-col md:flex-row gap-10 items-center md:items-start'>
                                         <div className='flex flex-col justify-between gap-4'>
                                             <div className="w-full h-full bg-white rounded-2xl shadow-lg py-4 px-3 flex flex-col items-center justify-center">
                                                 <img
@@ -274,11 +274,14 @@ function ExperiencesDetailPage() {
                                             <div>
                                                 <button className='w-full bg-gray-200 py-2 rounded-xl text-[14px] font-semibold'>Message The Host</button>
                                             </div>
-                                            <div>
-                                                <p className='text-[14px] text-gray-500 max-w-[400px] text-center'>To help protect your payment, always use Airbnb to send money and communicate with hosts.</p>
+                                            <div className="flex justify-center w-full">
+                                                <p className='text-[14px] text-gray-500 max-w-[400px] text-center'>
+                                                    To help protect your payment, always use Airbnb to send money and communicate with hosts.
+                                                </p>
                                             </div>
+
                                         </div>
-                                        <div className='max-w-[300px]'>
+                                        <div className='max-w-[300px] text-center md:text-start'>
                                             <p className='text-[16px] text-gray-600'>Hi, my name is {experience.host.name}, I originally work in {experience.host.work}, I have an obsession with {experience.host.obsession} {experience.host.about_me}</p>
                                         </div>
                                     </div>
@@ -371,7 +374,7 @@ function ExperiencesDetailPage() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                                 <div className='sticky top-30'>
                                     <BookingCard experienceId={parseInt(id)} />
 
