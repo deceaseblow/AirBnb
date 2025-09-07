@@ -20,6 +20,6 @@ Please be patient and refresh the page if it doesn’t load immediately.
 - **Frontend:** React, React Hooks (useState, useEffect, custom hooks)  
 - **Backend & Hosting:** Node.js, Express, deployed on Render  
 - **State Management:** React hooks and props drilling  
-- **Styling:** CSS / Tailwind (depending on your implementation)  
+- **Styling:** CSS / Tailwind
 - **Data:** Hardcoded JSON data to simulate real listings  
 - **Services:** CRUD-like operations with service functions  
