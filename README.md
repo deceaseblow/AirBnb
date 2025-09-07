@@ -7,6 +7,7 @@ This Airbnb clone is a React-based full-stack application that replicates the co
 This project is hosted on the free tier of Render.  
 The server may take **30–60 seconds** to spin up when you first open the link.  
 Please be patient and refresh the page if it doesn’t load immediately.
+Visit here: [Airbnb on Render](https://airbnbdata.onrender.com/api/)  
 
 ## Features  
 - Browse listings with details such as images, descriptions, and pricing  
